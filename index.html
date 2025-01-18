@@ -1,0 +1,308 @@
+
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INNOVA PROTEC</title>
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        function mostrarConocenos() {
+            const contenido = document.getElementById("contenido");
+            contenido.innerHTML = `  
+                <section id="conocenos" class="conocenos">
+                    <h2>Misión</h2>
+                    <p>En Innova Protec, nuestra misión es capacitar a personas en el ámbito de la tecnología, brindando formación de alta calidad y accesible que les permita adquirir habilidades prácticas y actualizadas para enfrentar los retos del mundo digital. A través de cursos innovadores y enfocados en el desarrollo de competencias tecnológicas, buscamos empoderar a nuestros estudiantes y prepararlos para el éxito en un entorno laboral en constante evolución.</p>
+                    <h2>Visión</h2>
+                    <p>Ser una empresa líder en la capacitación tecnológica, reconocida por transformar el futuro de nuestros estudiantes mediante programas educativos innovadores y de calidad. Nos comprometemos a ser el puente entre el conocimiento y el mercado laboral, contribuyendo al desarrollo de habilidades que impulsen el crecimiento profesional de nuestros alumnos, adaptándonos a las necesidades del mundo digital y fomentando la inclusión tecnológica.</p>
+                    <h2>Acerca de Nosotros</h2>
+                    <p>Somos una academia especializada en ofrecer formación tecnológica de alta calidad, impartida por docentes calificados y con amplia experiencia. Nuestro objetivo es capacitar a emprendedores, estudiantes, profesionales y al público en general, brindando cursos virtuales y en vivo, accesibles para todos, sin importar su ubicación. Con un enfoque práctico e innovador, garantizamos que nuestros participantes adquieran las competencias necesarias para enfrentar los desafíos del mundo digital y destacar en el entorno laboral.</p>
+                </section>
+            `;
+            // Hacer scroll a la sección CONÓCENOS
+            document.getElementById('conocenos').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function mostrarInicio() {
+            const contenido = document.getElementById("contenido");
+            contenido.innerHTML = ` 
+                <section class="banner">
+                    <div class="banner-container">
+                        <div class="banner-text">
+                            <h1>¡Prepárate hoy para los desafíos tecnológicos del mañana!</h1>
+                            <p>Obtén acceso a nuestros cursos con tarifas preferenciales.</p>
+                            <a href="javascript:void(0)" class="btn" onclick="mostrarSeccion('inscribete')">Conoce Más</a>
+                            
+
+                            
+                        </div>
+                        <div class="banner-image">
+                            <img src="Imagenes/banner1.jpg" alt="Programas Especializados">
+                        </div>
+                    </div>
+                </section>
+                <section id="programas" class="programas">
+                    <h2>CURSOS DE ESPECIALIZACIÓN</h2>
+                    <div class="cards">
+                        <div class="card" onclick="mostrarImagenes('pregrado')">
+                            <img src="Imagenes/pregrado.jpg" alt="Pregrado">
+                            <h3>DOMINA LA INTELIGENCIA ARTIFICIAL</h3>
+                            <p>Impulsa tu conocimiento en IA con sesiones dinámicas que combinan teoría y práctica, sin necesidad de experiencia previa.</p>
+                        </div>
+                        <div class="card" onclick="mostrarImagenes('epe')">
+                            <img src="Imagenes/epe.jpg" alt="EPE">
+                            <h3>PYTHON BASICO</h3>
+                            <p>Aprende Python desde cero con prácticas simples y ejemplos claros para dar tus primeros pasos en programación.</p>
+                        </div>
+                        <div class="card" onclick="mostrarImagenes('postgrado')">
+                            <img src="Imagenes/postgrado.jpg" alt="Postgrado">
+                            <h3> C++ BASICO</h3>
+                            <p>Desarrolla tus habilidades en programación aprendiendo C++ desde lo básico con ejemplos prácticos y explicaciones claras.</p>
+                        </div>
+                        <div class="card" onclick="mostrarImagenes('workingstudent')">
+                            <img src="Imagenes/workingstudent.jpg" alt="Working Student">
+                            <h3>DISEÑO Y MARKETING DIGITAL CON CANVA</h3>
+                            <p>Crea contenido impactante y estrategias efectivas con Canva, combinando diseño y marketing digital de forma sencilla.</p>
+                        </div>
+                    </div>
+                </section>
+            `;
+            // Hacer scroll al inicio de la página (arriba)
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+
+        function mostrarCursosDisponibles() {
+            const contenido = document.getElementById("contenido");
+            contenido.innerHTML = ` 
+                <section id="programas" class="programas">
+                    <h2>CURSOS DE ESPECIALIZACIÓN</h2>
+                    <div class="cards">
+                        <div class="card" onclick="mostrarImagenes('pregrado')">
+                            <img src="Imagenes/pregrado.jpg" alt="Pregrado">
+                            <h3>DOMINA LA INTELIGENCIA ARTIFICIAL</h3>
+                            <p>Impulsa tu conocimiento en IA con sesiones dinámicas que combinan teoría y práctica, sin necesidad de experiencia previa.</p>
+                        </div>
+                        <div class="card" onclick="mostrarImagenes('epe')">
+                            <img src="Imagenes/epe.jpg" alt="EPE">
+                            <h3>PYTHON BASICO</h3>
+                            <p>Aprende Python desde cero con prácticas simples y ejemplos claros para dar tus primeros pasos en programación.</p>
+                        </div>
+                        <div class="card" onclick="mostrarImagenes('postgrado')">
+                            <img src="Imagenes/postgrado.jpg" alt="Postgrado">
+                            <h3> C++ BASICO</h3>
+                            <p>Desarrolla tus habilidades en programación aprendiendo C++ desde lo básico con ejemplos prácticos y explicaciones claras.</p>
+                        </div>
+                        <div class="card" onclick="mostrarImagenes('workingstudent')">
+                            <img src="Imagenes/workingstudent.jpg" alt="Working Student">
+                            <h3>DISEÑO Y MARKETING DIGITAL CON CANVA</h3>
+                            <p>Crea contenido impactante y estrategias efectivas con Canva, combinando diseño y marketing digital de forma sencilla.</p>
+                        </div>
+                    </div>
+                </section>
+            `;
+            // Hacer scroll directamente a la sección de "Cursos de Especialización"
+            document.getElementById('programas').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function mostrarSeccion(seccion) {
+    const contenido = document.getElementById("contenido");
+    
+    if (seccion === 'contactanos') {
+        contenido.innerHTML = `
+            <section id="contactanos" class="contactanos">
+                <div class="contactanos">
+                    <img src="Imagenes/contac.jpg" alt="Imagen de contacto" class="imagen-contacto">
+                </div>
+                <!-- Contenedor con fondo azul debajo de la imagen -->
+                <div class="contenedor-debajo-imagen">
+                    <p><strong>WhatsApp:</strong> 
+    <a href="https://wa.me/51925779240" target="_blank" rel="noopener noreferrer" class="link-blanco">925 779 240</a>
+</p>
+
+                <p><strong>Facebook:</strong> <a href="https://www.facebook.com/profile.php?id=61571025386877" target="_blank" rel="noopener noreferrer" class="link-blanco">Innova Protec</a></p>
+                <p><strong>Llamadas:</strong> 
+    <a href="tel:+51993661811" class="link-blanco">993 661 811</a>
+</p>
+
+                </div>
+            </section>
+        `;
+    } else if (seccion === 'inscribete') {
+        contenido.innerHTML = `
+            <section id="inscribete">
+                <h2>Formulario de Inscripción</h2>
+                <form action="https://formspree.io/f/mwppynwq" method="POST" class="inscripcion-form">
+                    <!-- Fila 1: Nombre y Apellido -->
+                    <div class="form-group-nombre-apellido">
+                        <div class="form-group">
+                            <label for="nombre">Nombre:</label>
+                            <input type="text" id="nombre" name="nombre" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="apellido">Apellido:</label>
+                            <input type="text" id="apellido" name="apellido" required>
+                        </div>
+                    </div>
+
+                    <!-- Fila 2: Correo y Teléfono -->
+                    <div class="form-group-correo-telefono">
+                        <div class="form-group">
+                            <label for="email">Correo Electrónico:</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="telefono">Teléfono:</label>
+                            <input type="tel" id="telefono" name="telefono" required>
+                        </div>
+                    </div>
+
+                    <!-- Fila 3: Mensaje -->
+                    <div class="form-group">
+                        <label for="consulta">Mensaje:</label>
+                        <textarea id="consulta" name="consulta" required></textarea>
+                    </div>
+
+                    <!-- Fila 4: Curso -->
+                    <div class="form-group">
+                        <label for="curso">Curso:</label>
+                        <select id="curso" name="curso" required>
+                            <option value="curso1">Selecciona un curso</option>
+                            <option value="Domina la Inteligencia Artificial">Domina la Inteligencia Artificial</option>
+                            <option value="Python Basico">Python Basico</option>
+                            <option value="C++ Basico">C++ Basico</option>
+                            <option value="Diseño y Marketing con Canva">Diseño y Marketing con Canva</option>
+                        </select>
+
+                        <button type="submit">Enviar</button> 
+                    </form>
+                </section>
+            `;
+    }
+
+    // Desplazar suavemente hacia la sección correspondiente
+    document.getElementById(seccion).scrollIntoView({ behavior: 'smooth' });
+}
+
+        function mostrarImagenes(curso) {
+            let imagenes = {
+                pregrado: ['Imagenes/pregrado1.jpg', 'Imagenes/pregrado2.jpg', 'Imagenes/pregrado3.jpg'],
+                epe: ['Imagenes/epe1.jpg', 'Imagenes/epe2.jpg', 'Imagenes/epe3.jpg'],
+                postgrado: ['Imagenes/postgrado1.jpg', 'Imagenes/postgrado2.jpg','Imagenes/postgrado3.jpg'],
+                workingstudent: ['Imagenes/workingstudent1.jpg', 'Imagenes/workingstudent2.jpg', 'Imagenes/workingstudent3.jpg']
+            };
+
+            const contenido = document.getElementById("contenido");
+            contenido.innerHTML = `
+                <section class="imagenes-cursos">
+                    
+                    <div class="galeria">
+                        <img src="${imagenes[curso][0]}" alt="${curso} 1">
+                        <img src="${imagenes[curso][1]}" alt="${curso} 2">
+                        <img src="${imagenes[curso][2]}" alt="${curso} 3">
+                        
+                    </div>
+                    <button onclick="mostrarCursosDisponibles()">Volver a los cursos</button>
+                </section>
+
+            `;
+            
+        }
+
+        
+    </script>
+</head>
+<body>
+    <!-- Header -->
+     
+    <header class="header">
+        <div class="logo-title" onclick="mostrarInicio()" style="cursor: pointer;">
+            <img src="Imagenes/logo.jpg" alt="Logo UPC">
+            <h1>INNOVA PROTEC</h1>
+        </div>
+        <nav class="navbar">
+            <ul>
+                <li><a href="javascript:void(0)" onclick="mostrarConocenos()">CONÓCENOS</a></li>
+                <li><a href="javascript:void(0)" onclick="mostrarCursosDisponibles()">CURSOS DISPONIBLES</a></li>
+                <li><a href="javascript:void(0)" onclick="mostrarSeccion('contactanos')">CONTACTO</a></li>
+                
+                <li><a href="javascript:void(0)" class="btn" onclick="mostrarSeccion('inscribete')">INSCRIBETE</a></li>
+                
+                
+                
+                
+            </ul>
+        </nav>
+    </header>
+
+
+
+
+
+    <!-- Contenido dinámico -->
+     
+    <div id="contenido">
+        
+        <section class="banner">
+            <div class="banner-container">
+                <div class="banner-text">
+                    <h1>¡Prepárate hoy para los desafíos tecnológicos del mañana!</h1>
+                    <p>Obtén acceso a nuestros cursos con tarifas preferenciales.</p>
+                    
+                    
+                    <a href="javascript:void(0)" class="btn" onclick="mostrarSeccion('inscribete')">Conoce Más</a>
+                    
+                    
+                    
+                    
+    
+
+
+                    
+                </div>
+                <div class="banner-image">
+                    <img src="Imagenes/banner1.jpg" alt="Programas Especializados">
+                </div>
+            </div>
+        </section>
+        <section id="programas" class="programas">
+            <h2>CURSOS DE ESPECIALIZACIÓN</h2>
+            <div class="cards">
+                <div class="card" onclick="mostrarImagenes('pregrado')">
+                    <img src="Imagenes/pregrado.jpg" alt="Pregrado">
+                    <h3>DOMINA LA INTELIGENCIA ARTIFICIAL</h3>
+                    <p>Impulsa tu conocimiento en IA con sesiones dinámicas que combinan teoría y práctica, sin necesidad de experiencia previa.</p>
+                </div>
+                <div class="card" onclick="mostrarImagenes('epe')">
+                    <img src="Imagenes/epe.jpg" alt="EPE">
+                    <h3>PYTHON BASICO</h3>
+                    <p>Aprende Python desde cero con prácticas simples y ejemplos claros para dar tus primeros pasos en programación.</p>
+                </div>
+                <div class="card" onclick="mostrarImagenes('postgrado')">
+                    <img src="Imagenes/postgrado.jpg" alt="Postgrado">
+                    <h3> C++ BASICO</h3>
+                    <p>Desarrolla tus habilidades en programación aprendiendo C++ desde lo básico con ejemplos prácticos y explicaciones claras.</p>
+                </div>
+                <div class="card" onclick="mostrarImagenes('workingstudent')">
+                    <img src="Imagenes/workingstudent.jpg" alt="Working Student">
+                    <h3>DISEÑO Y MARKETING DIGITAL CON CANVA</h3>
+                    <p>Crea contenido impactante y estrategias efectivas con Canva, combinando diseño y marketing digital de forma sencilla.</p>
+                </div>
+            </div>
+
+
+        </section>
+        
+    </div>
+
+    <a href="https://wa.me/925779240" class="whatsapp-button" target="_blank">
+    <img src="Imagenes/whats.jpg" alt="WhatsApp">
+    
+</a>
+
+    
+</body>
+</html>
+<!-- Pie de página -->
+<footer style="background-color: #808080; color: white; padding: 5px 0; text-align: center;">
+    <p>&copy; 2025 Innova Protec. Todos los derechos reservados.</p>
+</footer>
