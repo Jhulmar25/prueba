@@ -11,67 +11,140 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding:  10px;
+    padding: 10px 20px;
     background: #fff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    flex-wrap: wrap; /* Permite que los elementos se ajusten en pantallas pequeñas */
 }
 
+/* Logo y título */
 .logo-title {
     display: flex;
     align-items: center;
-    gap: 20px; /* Espacio entre el logo y el texto */
+    gap: 15px; /* Espacio entre el logo y el texto */
+    flex-wrap: wrap; /* Ajusta el logo y título si es necesario */
 }
 
 .logo-title img {
-    width: 80px;
+    width: 60px; /* Tamaño adaptable */
+    max-width: 80px;
+    height: auto;
 }
 
 .logo-title h1 {
     font-family: 'Playfair Display', serif; /* Fuente serif elegante */
-    font-size: 2.5rem; /* Tamaño de fuente grande para destacar */
-    color: #3d3d3d; /* Un color gris oscuro para un estilo sofisticado */
+    font-size: 1.8rem; /* Ajusta tamaño de fuente para que sea responsive */
+    color: #3d3d3d;
     margin: 0;
-    font-weight: 700; /* Un peso de fuente más fuerte para hacerla más llamativa */
-    letter-spacing: 2px; /* Aumenta el espaciado entre las letras para darle un aire de lujo */
-    text-transform: uppercase; /* Convierte el texto a mayúsculas para darle más presencia */
-    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2); /* Agrega sombra sutil al texto para darle profundidad */
-    transition: all 0.3s ease; /* Añade transición para efectos de hover */
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    text-align: center; /* Asegura alineación correcta en pantallas pequeñas */
 }
+
 /* Efecto al pasar el mouse sobre el nombre */
 .logo-title h1:hover {
-    color: #e60000; /* Cambia el color a un rojo elegante al pasar el mouse */
-    text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.3); /* Aumenta la sombra para un efecto de resplandor */
-    transform: scale(1.05); /* Aumenta ligeramente el tamaño al pasar el mouse */
+    color: #e60000;
+    text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.3);
+    transform: scale(1.05);
 }
+
+/* Navegación */
+.navbar {
+    display: flex;
+    justify-content: center; /* Centra los elementos horizontalmente */
+    flex-wrap: wrap; /* Permite ajuste en pantallas pequeñas */
+    gap: 20px; /* Espacio entre los elementos */
+}
+
 .navbar ul {
     list-style: none;
-    display: flex;
-    gap: 20px;
+    display: flex; /* Asegura que los elementos estén en línea */
+    gap: 20px; /* Espaciado horizontal */
     margin: 0;
     padding: 0;
 }
 
+.navbar li {
+    display: inline-block; /* Asegura disposición en línea */
+}
+
 .navbar a {
     text-decoration: none;
-    color: #333; /* Color oscuro por defecto */
+    color: #333;
     font-weight: bold;
-    font-size: 1.15rem; /* Tamaño de fuente base */
-    transition: all 0.3s ease; /* Transición suave para todos los efectos*/
+    font-size: 1rem; /* Tamaño adaptable */
+    transition: all 0.3s ease;
 }
 
 /* Efecto al pasar el mouse sobre los enlaces */
 .navbar a:hover {
-    color: #e60000; /* Cambia el color a rojo cuando el mouse pasa encima */
-    transform: scale(1.1); /* Aumenta ligeramente el tamaño */
-    text-decoration: underline; /* Subraya el texto */
-    letter-spacing: 1px; /* Añade un ligero espaciado entre las letras */
+    color: #e60000;
+    transform: scale(1.1);
+    text-decoration: underline;
+    letter-spacing: 1px;
 }
 
+/* Botón especial */
 .navbar .btn {
     background: #e60000;
     color: #fff;
-    padding: 10px 20px;
+    padding: 8px 15px; /* Tamaño adaptable */
     border-radius: 5px;
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+/* Media queries para pantallas pequeñas */
+@media screen and (max-width: 768px) {
+    .header {
+        padding: 10px; /* Reduce el padding */
+        flex-direction: column; /* Cambia la dirección a vertical */
+        text-align: center; /* Centra los elementos */
+    }
+
+    .logo-title img {
+        width: 50px; /* Reduce el tamaño del logo */
+    }
+
+    .logo-title h1 {
+        font-size: 1.5rem; /* Ajusta el tamaño del texto */
+    }
+
+    .navbar ul {
+        flex-wrap: wrap; /* Asegura ajuste de los enlaces */
+        justify-content: center;
+        gap: 15px; /* Espacio entre enlaces */
+    }
+
+    .navbar a {
+        font-size: 1rem; /* Ajusta tamaño del texto */
+    }
+
+    .navbar .btn {
+        padding: 10px;
+        font-size: 1rem; /* Ajusta tamaño del botón */
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .logo-title h1 {
+        font-size: 1.3rem; /* Reduce aún más el tamaño */
+    }
+
+    .navbar ul {
+        gap: 10px; /* Reduce el espacio entre los enlaces */
+    }
+
+    .navbar a {
+        font-size: 0.9rem; /* Reduce el tamaño del texto */
+    }
+
+    .navbar .btn {
+        font-size: 0.8rem; /* Botón más pequeño */
+    }
 }
 
 
