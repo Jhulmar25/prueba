@@ -1,151 +1,221 @@
 /* Estilo general */
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+    font-family: Arial, sans-serif; /* Establece la fuente principal del cuerpo */
+    margin: 0; /* Elimina los márgenes predeterminados */
+    padding: 0; /* Elimina el padding predeterminado */
+    box-sizing: border-box; /* Hace que el padding y el borde se incluyan en el tamaño total de los elementos */
+    background-color: #f5f5f5; /* Establece un color de fondo suave para la página */
+    color: #333; /* Establece un color de texto oscuro */
 }
 
-/* Header */
+/* Header: diseño y estructura del encabezado */
 .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
-    background: #fff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    flex-wrap: wrap; /* Permite que los elementos se ajusten en pantallas pequeñas */
+    display: flex; /* Usa Flexbox para el diseño flexible */
+    justify-content: space-between; /* Espacio entre los elementos dentro del encabezado */
+    align-items: center; /* Alinea verticalmente los elementos en el centro */
+    padding: 10px 25px; /* Padding para el encabezado */
+    background: #fff; /* Fondo blanco para el encabezado */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Agrega sombra sutil al encabezado */
+    position: relative; /* Para permitir un control de posición relativo */
+    flex-wrap: wrap; /* Permite que los elementos se acomoden en múltiples filas si es necesario */
+    z-index: 999; /* Asegura que el encabezado esté siempre por encima de otros elementos */
 }
 
-/* Logo y título */
+/* Contenedor del logo y el texto */
 .logo-title {
-    display: flex;
-    align-items: center;
-    gap: 15px; /* Espacio entre el logo y el texto */
-    flex-wrap: wrap; /* Ajusta el logo y título si es necesario */
+    display: flex; /* Usa Flexbox para alinear logo y texto */
+    align-items: center; /* Alinea verticalmente el logo y el texto */
+    gap: 20px; /* Espacio entre el logo y el texto */
+    flex: 1; /* Permite que el contenedor del logo ocupe el espacio disponible */
+    justify-content: flex-start; /* Alinea el logo y texto hacia la izquierda */
 }
 
+/* Estilo del logo */
 .logo-title img {
-    width: 60px; /* Tamaño adaptable */
-    max-width: 80px;
-    height: auto;
+    width: 70px; /* Define el tamaño del logo */
 }
 
+/* Estilo del título */
 .logo-title h1 {
-    font-family: 'Playfair Display', serif; /* Fuente serif elegante */
-    font-size: 1.8rem; /* Ajusta tamaño de fuente para que sea responsive */
-    color: #3d3d3d;
-    margin: 0;
-    font-weight: 700;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
-    transition: all 0.3s ease;
-    text-align: center; /* Asegura alineación correcta en pantallas pequeñas */
+    font-family: 'Playfair Display', serif; /* Fuente serif elegante para el título */
+    font-size: 2rem; /* Tamaño grande de la fuente para el título */
+    color: #3d3d3d; /* Color gris oscuro para el texto */
+    margin: 0; /* Elimina el margen predeterminado */
+    font-weight: 700; /* Peso de la fuente en negrita */
+    letter-spacing: 1.1px; /* Espaciado entre las letras */
+    text-transform: uppercase; /* Convierte el texto a mayúsculas */
+    text-shadow: 5px 5px 8px rgba(0, 0, 0, 0.1); /* Sombra sutil para el texto */
+    transition: color 0.3s ease, transform 0.3s ease, text-shadow 0.3s ease; /* Transición suave para efectos */
 }
 
-/* Efecto al pasar el mouse sobre el nombre */
+/* Efecto de hover sobre el título */
 .logo-title h1:hover {
-    color: #e60000;
-    text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.3);
-    transform: scale(1.05);
+    color: #e60000; /* Cambia el color del texto a rojo */
+    text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.3); /* Aumenta la sombra para un efecto de resplandor */
+    transform: scale(1.05); /* Aumenta ligeramente el tamaño del texto */
 }
 
-/* Navegación */
-.navbar {
-    display: flex;
-    justify-content: center; /* Centra los elementos horizontalmente */
-    flex-wrap: wrap; /* Permite ajuste en pantallas pequeñas */
-    gap: 20px; /* Espacio entre los elementos */
-}
-
+/* Barra de navegación */
 .navbar ul {
-    list-style: none;
-    display: flex; /* Asegura que los elementos estén en línea */
-    gap: 20px; /* Espaciado horizontal */
-    margin: 0;
-    padding: 0;
+    list-style: none; /* Elimina los puntos de lista predeterminados */
+    display: flex; /* Usa Flexbox para organizar los elementos en línea */
+    gap: 15px; /* Espacio entre los enlaces */
+    margin: 0; /* Elimina el margen predeterminado */
+    padding: 0; /* Elimina el padding predeterminado */
+    flex-wrap: nowrap; /* Evita que los elementos se envuelvan en una nueva fila */
+    justify-content: flex-end; /* Alinea los enlaces a la derecha */
+    flex: 1; /* Permite que la barra de navegación ocupe el espacio disponible */
 }
 
-.navbar li {
-    display: inline-block; /* Asegura disposición en línea */
-}
-
+/* Estilo de los enlaces de navegación */
 .navbar a {
-    text-decoration: none;
-    color: #333;
-    font-weight: bold;
-    font-size: 1rem; /* Tamaño adaptable */
-    transition: all 0.3s ease;
+    text-decoration: none; /* Elimina el subrayado predeterminado de los enlaces */
+    color: #494949; /* Color de texto oscuro por defecto */
+    font-weight: bold; /* Fuente en negrita */
+    font-size: 1rem; /* Tamaño de fuente base */
+    transition: all 0.3s ease; /* Transición suave para todos los efectos */
+    padding: 5px 10px; /* Espaciado dentro de los enlaces */
+    border-radius: 5px; /* Bordes redondeados para los enlaces */
 }
 
-/* Efecto al pasar el mouse sobre los enlaces */
+/* Efecto de hover sobre los enlaces de navegación */
 .navbar a:hover {
-    color: #e60000;
-    transform: scale(1.1);
-    text-decoration: underline;
-    letter-spacing: 1px;
+    color: #f34343; /* Cambia el color del texto a blanco */
+    
+    transform: scale(1.1); /* Aumenta ligeramente el tamaño */
+    text-decoration: underline; /* Subraya el texto */
+    letter-spacing: 1px; /* Añade un pequeño espaciado entre letras */
 }
 
-/* Botón especial */
+/* Estilo del botón en la barra de navegación */
 .navbar .btn {
-    background: #e60000;
+    background: #f34343; /* Fondo rojo para el botón */
+    color: #fff; /* Color del texto en blanco */
+    padding: 10px 20px; /* Espaciado dentro del botón */
+    border-radius: 10px; /* Bordes redondeados para el botón */
+    font-size: 1.1rem; /* Tamaño de fuente ligeramente más grande */
+    font-weight: 700; /* Fuente en negrita */
+    transition: background 0.3s ease; /* Transición suave para el cambio de color de fondo */
+}
+
+/* Efecto de hover sobre el botón */
+.navbar .btn:hover {
+    background: #f34343; /* Fondo rojo más oscuro cuando se pasa el ratón */
     color: #fff;
-    padding: 8px 15px; /* Tamaño adaptable */
-    border-radius: 5px;
-    font-size: 0.9rem;
-    font-weight: bold;
 }
 
 /* Media queries para pantallas pequeñas */
-@media screen and (max-width: 768px) {
+
+/* Pantallas hasta 1024px (tablets pequeñas y dispositivos grandes) */
+@media (max-width: 1024px) {
     .header {
-        padding: 10px; /* Reduce el padding */
-        flex-direction: column; /* Cambia la dirección a vertical */
-        text-align: center; /* Centra los elementos */
+        flex-direction: row; /* Alineación de los elementos en fila */
+        justify-content: space-between; /* Espacio entre los elementos */
+        padding: 15px 20px; /* Reduce el padding del encabezado */
+    }
+
+    .logo-title {
+        gap: 15px; /* Reduce el espacio entre el logo y el texto */
     }
 
     .logo-title img {
-        width: 50px; /* Reduce el tamaño del logo */
+        width: 60px; /* Reduce el tamaño del logo */
     }
 
     .logo-title h1 {
-        font-size: 1.5rem; /* Ajusta el tamaño del texto */
+        font-size: 1.8rem; /* Reduce el tamaño del texto del título */
     }
 
     .navbar ul {
-        flex-wrap: wrap; /* Asegura ajuste de los enlaces */
-        justify-content: center;
-        gap: 15px; /* Espacio entre enlaces */
+        gap: 15px; /* Reduce el espacio entre los enlaces */
+        justify-content: flex-start; /* Alinea los enlaces hacia la izquierda */
+        flex: 1; /* Deja que la barra de navegación ocupe el espacio disponible */
     }
 
     .navbar a {
-        font-size: 1rem; /* Ajusta tamaño del texto */
+        font-size: 0.95rem; /* Reduce el tamaño de los enlaces */
+        padding: 10px 15px; /* Ajusta el padding de los enlaces */
     }
 
     .navbar .btn {
-        padding: 10px;
-        font-size: 1rem; /* Ajusta tamaño del botón */
+        padding: 12px 15px; /* Ajusta el padding del botón */
+        font-size: 1rem; /* Reduce el tamaño de la fuente del botón */
     }
 }
 
-@media screen and (max-width: 480px) {
+/* Pantallas hasta 768px (tablets y dispositivos móviles grandes) */
+@media (max-width: 768px) {
+    .header {
+        flex-direction: row; /* Alineación de los elementos en fila */
+        justify-content: space-between; /* Espacio entre los elementos */
+        padding: 10px 15px; /* Ajusta el padding del encabezado */
+    }
+
+    .logo-title {
+        gap: 10px; /* Espacio reducido entre el logo y el texto */
+    }
+
+    .logo-title img {
+        width: 50px; /* Reduce el tamaño del logo aún más */
+    }
+
     .logo-title h1 {
-        font-size: 1.3rem; /* Reduce aún más el tamaño */
+        font-size: 1.5rem; /* Reduce el tamaño del texto del título */
     }
 
     .navbar ul {
-        gap: 10px; /* Reduce el espacio entre los enlaces */
+        gap: 10px; /* Espacio reducido entre los enlaces */
+        justify-content: flex-start; /* Alinea los enlaces hacia la izquierda */
     }
 
     .navbar a {
-        font-size: 0.9rem; /* Reduce el tamaño del texto */
+        font-size: 0.9rem; /* Reduce el tamaño de los enlaces */
+        padding: 8px 12px; /* Ajusta el padding de los enlaces */
     }
 
     .navbar .btn {
-        font-size: 0.8rem; /* Botón más pequeño */
+        padding: 8px 12px; /* Ajusta el padding del botón */
+        font-size: 1rem; /* Ajusta el tamaño del botón */
     }
 }
+
+/* Pantallas hasta 480px (dispositivos móviles pequeños) */
+@media (max-width: 480px) {
+    .header {
+        padding: 10px 15px; /* Ajusta el padding del encabezado */
+    }
+
+    .logo-title img {
+        width: 30px; /* Reduce el tamaño del logo aún más */
+    }
+
+    .logo-title h1 {
+        font-size: 1rem; /* Reduce el tamaño del texto del título */
+    }
+
+    .navbar ul {
+        gap: 5px; /* Espacio reducido entre los enlaces */
+    }
+
+    .navbar a {
+        font-size: 0.7rem; /* Ajusta el tamaño de los enlaces */
+        padding: 5px 5px; /* Ajusta el padding de los enlaces */
+    }
+
+    .navbar .btn {
+        width: auto; /* Deja que el botón ajuste su ancho automáticamente */
+        padding: 6px 5px; /* Ajusta el padding del botón */
+        font-size: 0.65rem; /* Ajusta el tamaño de la fuente del botón */
+    }
+}
+
+
+
+
+
+
+
+
 
 
 /* Banner */
@@ -153,35 +223,30 @@ body {
     display: flex;
     align-items: center;
     background: #f5f5f5;
-    padding: 7px 0px;
-    flex-wrap: wrap;
+    padding: 10px 0px;
+    flex-wrap: wrap; /* Permite que los elementos se ajusten en pantallas pequeñas */
 }
 
 .banner-container {
     display: flex;
     justify-content: space-between;
-    align-items: stretch; /* Asegura que todos los elementos dentro estén estirados de manera uniforme */
+    align-items: center;
     max-width: 1500px;
     margin: 0 auto;
-    width: 100%;
-    flex-wrap: wrap;
+    width: 100%; /* Asegura que el banner ocupe todo el ancho disponible */
+    flex-wrap: wrap; /* Permite que los elementos se ajusten en pantallas pequeñas */
 }
 
 .banner-text {
     flex: 1;
-    padding: 60px 30px; /* Ajusta el padding para alinearlo mejor con la imagen */
+    padding: 103px 30px;
     background: #d42424;
     color: white;
     border-radius: 5px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    margin-top: 0; /* Elimina cualquier margen superior que pudiera haber causado el desajuste */
 }
 
+/* Banner text styling */
 .banner-text h1 {
     font-size: 2rem;
     margin-bottom: 10px;
@@ -192,7 +257,7 @@ body {
     margin-bottom: 20px;
 }
 
-/* Botón de conoce más */
+/* Button styling */
 .banner-text .btn {
     background: white;
     color: #e60000;
@@ -213,24 +278,54 @@ body {
     object-fit: cover;
     border-radius: 5px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-top: 0; /* Asegura que no haya un margen superior en la imagen */
 }
 
-/* Media Queries para pantallas pequeñas */
+/* Media queries para pantallas pequeñas */
 @media (max-width: 768px) {
     .banner-container {
-        flex-direction: column;
+        flex-direction: column; /* Coloca los elementos en columna en pantallas pequeñas */
         align-items: center;
     }
 
     .banner-text {
-        padding: 60px 20px;
+        padding: 50px 20px; /* Ajusta el padding para pantallas más pequeñas */
+        text-align: center; /* Centra el texto */
+    }
+
+    .banner-text .btn {
+        padding: 8px 15px; /* Ajusta el tamaño del botón */
+        font-size: 1rem; /* Ajusta el tamaño de la fuente */
     }
 
     .banner-image img {
-        max-height: 300px;
+        max-height: 300px; /* Limita la altura de la imagen */
     }
 }
+
+@media (max-width: 480px) {
+    .banner-text h1 {
+        font-size: 1.5rem; /* Ajusta el tamaño del título */
+    }
+
+    .banner-text p {
+        font-size: 1rem; /* Ajusta el tamaño del texto */
+    }
+
+    .banner-text .btn {
+        padding: 6px 12px; /* Ajusta el tamaño del botón para pantallas muy pequeñas */
+        font-size: 0.9rem; /* Ajusta el tamaño de la fuente */
+    }
+
+    .banner-image img {
+        max-height: 250px; /* Limita aún más la altura de la imagen en pantallas muy pequeñas */
+    }
+}
+
+
+
+
+
+
 
 
 
