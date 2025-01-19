@@ -232,7 +232,7 @@ body {
 
 .banner-text {
     flex: 1;
-    padding: 110px 30px;
+    padding: 120px 30px;
     background: #d42424;
     color: white;
     border-radius: 5px;
@@ -313,14 +313,6 @@ body {
         max-height: 250px; /* Limita aún más la altura de la imagen en pantallas muy pequeñas */
     }
 }
-
-
-
-
-
-
-
-
 
 
 
@@ -572,9 +564,6 @@ body, html {
 
 
 
-
-
-
 /* Contenedor principal de la galería */
 .imagenes-cursos {
     display: flex;
@@ -631,8 +620,6 @@ body, html {
         width: 100%; /* El botón ocupará el 100% en dispositivos móviles */
     }
 }
-
-
 
 
 
@@ -721,100 +708,178 @@ body, html {
 
 
 
-
-
-
 /* Sección principal del formulario */
 #inscribete {
-    /* Fondo con un gradiente suave entre colores */
     background: #0e6292;
-    padding: 40px; /* Espaciado interior alrededor del formulario */
-    border-radius: 10px; /* Bordes redondeados */
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2); /* Sombra alrededor del formulario */
-    width: 100%; /* Ocupa todo el ancho disponible */
-    max-width: 1265px; /* Limita el ancho máximo a 750px */
-    margin: auto; /* Centra el formulario en la página */
-    text-align: center; /* Centra el texto dentro del formulario */
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 1265px;
+    margin: auto;
+    text-align: center;
+    box-sizing: border-box; /* Asegura que el padding no afecte el tamaño total */
 }
 
 /* Estilos del título */
 h2 {
-    font-family: 'Arial', sans-serif; /* Fuente del título */
-    color: #ffffff; /* Color blanco para el texto */
-    margin-bottom: 20px; /* Espaciado debajo del título */
-    font-size: 28px; /* Tamaño de fuente */
-    text-transform: uppercase; /* Convierte el texto a mayúsculas */
-    letter-spacing: 2px; /* Espaciado entre letras */
+    font-family: 'Arial', sans-serif;
+    color: #ffffff;
+    margin-bottom: 20px;
+    font-size: 28px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
 }
 
 /* Estilos del formulario */
 .inscripcion-form {
-    /* Flexbox para organizar los elementos del formulario en columnas */
     display: flex;
-    flex-direction: column; /* Coloca los elementos en una columna */
-    gap: 20px; /* Espaciado entre los elementos */
-    align-items: center; /* Centra los elementos horizontalmente */
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    width: 100%;
 }
 
 /* Agrupamos nombre y apellido en una sola fila */
 .form-group-nombre-apellido {
-    display: flex; /* Flexbox para la alineación horizontal */
-    justify-content: space-between; /* Distribuye los elementos a lo largo de la línea */
-    gap: 20px; /* Espaciado entre los elementos */
-    width: 80%; /* Establece el ancho del contenedor */
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    width: 80%;
 }
 
 /* Agrupamos correo y teléfono en una sola fila */
 .form-group-correo-telefono {
-    display: flex; /* Flexbox para la alineación horizontal */
-    justify-content: space-between; /* Distribuye los elementos a lo largo de la línea */
-    gap: 20px; /* Espaciado entre los elementos */
-    width: 80%; /* Establece el ancho del contenedor */
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    width: 80%;
 }
 
 /* Estilos de los grupos de campo */
 .form-group {
-    /* Flexbox para la disposición vertical de los elementos dentro de cada campo */
     display: flex;
-    flex-direction: column; /* Organiza los elementos en una columna */
-    width: 80%; /* Establece el ancho de los elementos */
+    flex-direction: column;
+    width: 80%;
 }
 
 /* Estilos de las etiquetas */
 label {
-    color: #fff; /* Color blanco para las etiquetas */
-    margin-bottom: 8px; /* Espaciado debajo de la etiqueta */
-    font-size: 14px; /* Tamaño de la fuente */
-    font-weight: 500; /* Peso de la fuente (semi-negrita) */
+    color: #fff;
+    margin-bottom: 8px;
+    font-size: 14px;
+    font-weight: 500;
 }
 
 /* Estilos para los inputs, textarea y select */
 input, textarea, select {
-    padding: 12px; /* Espaciado dentro de los campos de entrada */
-    border-radius: 8px; /* Bordes redondeados */
-    border: 2px solid #ddd; /* Borde gris claro */
-    font-size: 14px; /* Tamaño de fuente */
-    color: #333; /* Color del texto dentro de los campos */
-    background-color: #fff; /* Color de fondo blanco */
-    transition: all 0.3s ease-in-out; /* Transición suave para el cambio de estilo */
+    padding: 12px;
+    border-radius: 8px;
+    border: 2px solid #ddd;
+    font-size: 14px;
+    color: #333;
+    background-color: #fff;
+    transition: all 0.3s ease-in-out;
+    width: 100%; /* Asegura que los campos no se estiren más allá de su contenedor */
 }
 
 /* Efecto de enfoque para los inputs, textarea y select */
 input:focus, textarea:focus, select:focus {
-    border-color: #5c6bc0; /* Cambia el color del borde al hacer clic en el campo */
-    outline: none; /* Elimina el borde adicional de enfoque */
+    border-color: #5c6bc0;
+    outline: none;
 }
 
 /* Estilos para los placeholders */
 input::placeholder, textarea::placeholder {
-    color: #888; /* Color gris para los textos de los placeholders */
+    color: #888;
 }
 
 /* Estilos específicos para el textarea */
 textarea {
-    height: 100px; /* Establece la altura del textarea */
-    resize: none; /* Desactiva la capacidad de redimensionar */
+    height: 100px;
+    resize: none;
 }
+
+/* Ajustes para pantallas pequeñas (tablets y dispositivos pequeños) */
+@media (max-width: 1024px) {
+    /* Reducción del tamaño de los inputs, textarea y select */
+    input, textarea, select {
+        font-size: 13px;
+        padding: 10px;
+    }
+
+    /* Ajustar el padding de la sección principal */
+    #inscribete {
+        padding: 30px 20px;
+    }
+
+    /* Título más pequeño en pantallas pequeñas */
+    h2 {
+        font-size: 24px;
+        letter-spacing: 1px;
+    }
+
+    /* Agrupar nombre y apellido en pantallas pequeñas */
+    .form-group-nombre-apellido, .form-group-correo-telefono {
+        flex-direction: column;
+        gap: 15px;
+        width: 100%;
+    }
+
+    /* Reducir el tamaño de los grupos de campo */
+    .form-group {
+        width: 100%;
+    }
+}
+
+/* Ajustes para pantallas muy pequeñas (móviles) */
+@media (max-width: 480px) {
+    /* Ajuste más estrecho para el formulario */
+    #inscribete {
+        padding: 20px 15px;
+        margin: 0 10px; /* Asegura que haya margen en el lado derecho */
+    }
+
+    /* Título más pequeño */
+    h2 {
+        font-size: 20px;
+    }
+
+    /* Ajustes para los campos de formulario */
+    input, textarea, select {
+        font-size: 12px;
+        padding: 8px;
+    }
+
+    /* Ajustar el tamaño de los grupos de campos */
+    .form-group-nombre-apellido, .form-group-correo-telefono {
+        gap: 10px;
+    }
+
+    .form-group {
+        width: 100%;
+    }
+}
+
+/* Para pantallas grandes (laptops y escritorios), aseguramos que todo se vea bien */
+@media (min-width: 1025px) {
+    #inscribete {
+        padding: 40px;
+        margin: 30px auto;
+    }
+
+    .form-group-nombre-apellido, .form-group-correo-telefono {
+        flex-direction: row;
+        gap: 20px;
+        width: 80%;
+    }
+}
+
+
+
+
+
+
 
 /* Estilos para el botón */
 button {
