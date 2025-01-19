@@ -211,13 +211,6 @@ body {
 
 
 
-
-
-
-
-
-
-
 /* Banner */
 .banner {
     display: flex;
@@ -340,11 +333,11 @@ body {
 /* Estilo para el título de la sección "Cursos de Especialización" */
 .programas h2 {
     font-family: 'Roboto', sans-serif; /* Usa una fuente moderna */
-    font-size: 3rem; /* Tamaño de fuente grande */
+    font-size: 5vw; /* El tamaño de la fuente se ajusta al 5% del ancho de la ventana */
     font-weight: bold;
     color: #333; /* Usamos un color gris oscuro para el texto principal */
     text-transform: uppercase; /* Convierte el texto en mayúsculas */
-    letter-spacing: 5px; /* Espaciado entre letras */
+    letter-spacing: 2px; /* Espaciado entre letras */
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil */
     margin-bottom: 10px; /* Reducimos el espacio debajo del título */
     position: relative;
@@ -361,6 +354,36 @@ body {
     background-color: #f93737; /* Un rojo más suave para el subrayado */
     border-radius: 5px; /* Bordes redondeados para el subrayado */
 }
+
+/* Ajustes específicos para pantallas más pequeñas */
+@media (max-width: 768px) {
+    .programas h2 {
+        font-size: 6vw; /* El tamaño de la fuente se ajusta aún más para pantallas más pequeñas */
+        letter-spacing: 3px; /* Ajustamos el espaciado entre las letras para mejor visualización */
+    }
+
+    .programas h2::after {
+        height: 3px; /* Reducimos el grosor del subrayado en pantallas pequeñas */
+    }
+}
+
+/* Ajustes para pantallas muy pequeñas (móviles) */
+@media (max-width: 480px) {
+    .programas h2 {
+        font-size: 7vw; /* El tamaño de la fuente se ajusta aún más */
+        letter-spacing: 4px; /* Ajuste adicional para pantallas pequeñas */
+    }
+
+    .programas h2::after {
+        height: 2px; /* Reducimos aún más el grosor del subrayado */
+    }
+}
+
+
+
+
+
+
 
 .cards {
     display: grid;
