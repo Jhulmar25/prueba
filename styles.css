@@ -382,9 +382,6 @@ body {
 
 
 
-
-
-
 .cards {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -543,6 +540,7 @@ body, html {
     overflow-x: hidden; /* Evita el desplazamiento horizontal */
 }
 
+
 /* Sección de contacto */
 #contactanos {
     position: relative;
@@ -575,7 +573,7 @@ body, html {
 
 
 
-/* baner azul */
+
 
 /* Contenedor principal de la galería */
 .imagenes-cursos {
@@ -635,6 +633,9 @@ body, html {
 }
 
 
+
+
+
 /* Estilo para la imagen de contacto */
 .imagen-contacto {
     width: 100%; /* Ajustar la imagen al 100% del contenedor */
@@ -643,7 +644,6 @@ body, html {
 }
 
 /* Estilo para el contenedor debajo de la imagen */
-
 .contenedor-debajo-imagen {
     background-color: #00796b; /* Fondo azul suave profundo */
     padding: 82px 20px; /* Añadir espacio dentro del contenedor */
@@ -670,9 +670,51 @@ body, html {
     font-size: 1.8rem; /* Tamaño de fuente mayor para destacar aún más */
 }
 
-/* Estilo para el formulario de inscripción */
+/* Ajustes para pantallas más pequeñas */
+@media (max-width: 768px) {
+    /* Reducción de la altura máxima de la imagen */
+    .imagen-contacto {
+        max-height: 50vh; /* Usar un porcentaje de la altura de la ventana */
+    }
 
+    /* Ajustar el padding del contenedor */
+    .contenedor-debajo-imagen {
+        padding: 60px 15px; /* Reducir espacio interior */
+    }
 
+    /* Ajustar el tamaño de los párrafos */
+    .contenedor-debajo-imagen p {
+        font-size: 1.2rem; /* Reducir el tamaño de fuente */
+    }
+
+    /* Ajustar el tamaño de las etiquetas <strong> */
+    .contenedor-debajo-imagen strong {
+        font-size: 1.4rem; /* Reducir el tamaño de fuente */
+    }
+}
+
+/* Ajustes para pantallas más pequeñas (móviles) */
+@media (max-width: 480px) {
+    /* Reducción de la altura máxima de la imagen */
+    .imagen-contacto {
+        max-height: 40vh; /* Hacer la imagen más pequeña */
+    }
+
+    /* Ajustar el padding del contenedor */
+    .contenedor-debajo-imagen {
+        padding: 50px 10px; /* Reducir el espacio interior aún más */
+    }
+
+    /* Ajustar el tamaño de los párrafos */
+    .contenedor-debajo-imagen p {
+        font-size: 1rem; /* Asegurar que el texto no sea demasiado grande */
+    }
+
+    /* Ajustar el tamaño de las etiquetas <strong> */
+    .contenedor-debajo-imagen strong {
+        font-size: 1.2rem; /* Hacer el texto destacado más pequeño */
+    }
+}
 
 
 
