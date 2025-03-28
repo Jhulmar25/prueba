@@ -97,12 +97,8 @@
                     map.setView([lat, lon], 15);
 
                     // Agregar marcador
-                    if (!marker) {
-                        marker = L.marker([lat, lon]).addTo(map)
-                            .bindPopup("Tu ubicación actual").openPopup();
-                    } else {
-                        marker.setLatLng([lat, lon]);
-                    }
+                    marker = L.marker([lat, lon]).addTo(map)
+                        .bindPopup("Tu ubicación actual").openPopup();
                 }, function (error) {
                     alert("Error al obtener la ubicación: " + error.message);
                 });
