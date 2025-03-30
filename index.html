@@ -3,132 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reportar Incidente</title>
-    
-    <!-- Estilos CSS -->
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            padding: 20px;
-            background-color: #f4f4f4;
-            text-align: center;
-        }
-        form {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-            width: 300px;
-            margin: auto;
-            text-align: left;
-        }
-        label {
-            font-weight: bold;
-        }
-        select, button {
-            width: 100%;
-            padding: 8px;
-            margin-top: 5px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        button {
-            background-color: #28a745;
-            color: white;
-            font-size: 16px;
-            cursor: pointer;
-        }
-        #map {
-            height: 400px;
-            width: 100%;
-            margin-top: 20px;
-            border-radius: 8px;
-        }
-    </style>
-
-    <!-- Leaflet.js para el mapa -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <title>Reporte de Incidentes - Serenazgo San Isidro</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-    <h2>Reportar Incidente</h2>
-
-    <form id="reporteForm">
-        <label for="usuario">Tipo de usuario:</label>
+    <div class="container">
+        <h2>Reporte de Incidentes</h2>
+        <label for="usuario">Tipo de Usuario:</label>
         <select id="usuario">
-            <option value="motorizado">Sereno Motorizado</option>
-            <option value="pie">Sereno a Pie</option>
-            <option value="bicicleta">Sereno en Bicicleta</option>
+            <option value="sereno_pie">Sereno a Pie</option>
+            <option value="motorizado">Motorizado</option>
+            <option value="drones">Escuadrón de Drones</option>
         </select>
 
-        <label for="tipo">Tipo de incidente:</label>
-        <select id="tipo">
-            <option value="choque">Choque</option>
-            <option value="incendio">Incendio</option>
-            <option value="robo">Robo</option>
+        <label for="incidente">Tipo de Incidente:</label>
+        <select id="incidente">
+            <option value="robo">Robo o hurto</option>
+            <option value="accidente">Accidente de tránsito</option>
+            <option value="violencia">Violencia familiar o de género</option>
+            <option value="sospechoso">Personas sospechosas</option>
+            <option value="medico">Emergencias médicas</option>
+            <option value="incendio">Incendios o fugas de gas</option>
+            <option value="alcohol">Consumo de alcohol o drogas</option>
+            <option value="vandalismo">Actos de vandalismo</option>
+            <option value="obstruccion">Obstrucción de la vía pública</option>
         </select>
 
-        <button type="button" onclick="reportar()">Enviar Reporte</button>
-    </form>
+        <button onclick="enviarReporte()">Enviar Reporte</button>
 
-    <div id="map"></div>
+        <div id="map"></div>
+    </div>
 
     <script>
-        let map = L.map('map').setView([-12.0464, -77.0428], 13); // Coordenadas de Lima
+        let map;
 
-        // Agregar mapa base
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '© OpenStreetMap contributors'
-        }).addTo(map);
+        function inicializarMapa() {
+            map = new google.maps.Map(document.getElementById("map"), {
+                center: { lat: -12.097, lng: -77.037 },
+                zoom: 15
+            });
+        }
 
-        let marker;
-
-        // Obtener ubicación del usuario
-        function obtenerUbicacion() {
+        function enviarReporte() {
             if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(function (position) {
-                    let lat = position.coords.latitude;
-                    let lon = position.coords.longitude;
+                navigator.geolocation.getCurrentPosition(position => {
+                    const { latitude, longitude } = position.coords;
 
-                    // Centrar el mapa en la ubicación del usuario
-                    map.setView([lat, lon], 15);
+                    const { AdvancedMarkerElement } = google.maps.marker;
+                    new AdvancedMarkerElement({
+                        map: map,
+                        position: { lat: latitude, lng: longitude },
+                        title: "Nuevo Incidente"
+                    });
 
-                    // Agregar marcador
-                    marker = L.marker([lat, lon]).addTo(map)
-                        .bindPopup("Tu ubicación actual").openPopup();
-                }, function (error) {
-                    alert("Error al obtener la ubicación: " + error.message);
+                    map.setCenter({ lat: latitude, lng: longitude });
+
+                    alert("Reporte enviado y registrado en el mapa.");
                 });
             } else {
-                alert("La geolocalización no es soportada en este navegador.");
+                alert("Geolocalización no soportada en este navegador.");
             }
         }
-
-        // Reportar incidente y dibujar en el mapa
-        function reportar() {
-            let usuario = document.getElementById("usuario").value;
-            let tipo = document.getElementById("tipo").value;
-
-            if (!marker) {
-                alert("Primero activa la ubicación para reportar.");
-                return;
-            }
-
-            let latLng = marker.getLatLng();
-
-            // Agregar un nuevo marcador con el reporte
-            L.marker([latLng.lat, latLng.lng]).addTo(map)
-                .bindPopup(`<b>${usuario}</b><br>${tipo}`).openPopup();
-
-            alert("Reporte enviado correctamente.");
-        }
-
-        // Ejecutar la función al cargar la página
-        window.onload = obtenerUbicacion;
     </script>
 
+    <script src="https://maps.googleapis.com/maps/api/js?key=TU_API_KEY&v=beta&callback=inicializarMapa" defer></script>
 </body>
 </html>
