@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Reporte de Incidentes</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 </head>
 <body>
   <h1>Reporte de Incidentes</h1>
+
   <form id="reporteForm">
     <label for="tipoSereno">Tipo de Sereno:</label>
     <select id="tipoSereno">
@@ -41,16 +42,14 @@
     <button type="button" onclick="enviarReporte()">Enviar Reporte</button>
   </form>
 
-  <div id="map" style="height: 400px;"></div>
+  <div id="map" style="height: 400px; margin-top: 20px;"></div>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
   <script type="module">
-    // Importar Firebase desde CDN
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+    import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
-    // Configuración Firebase (usa tus propias claves)
     const firebaseConfig = {
       apiKey: "AIzaSyABpCquSKr9z9alFPwZUshXaiVUGYEBbxY",
       authDomain: "pruebas-c80fc.firebaseapp.com",
@@ -64,18 +63,37 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    // Leaflet
-    var map = L.map('map').setView([-12.097, -77.037], 14);
+    // Iniciar mapa
+    const map = L.map('map').setView([-12.097, -77.037], 14);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '© OpenStreetMap'
     }).addTo(map);
-    var marcador;
+
+    let marcador;
+
+    // Cargar reportes anteriores
+    async function mostrarReportes() {
+      const querySnapshot = await getDocs(collection(db, "reportes"));
+      querySnapshot.forEach((doc) => {
+        const data = doc.data();
+        if (data.latitud && data.longitud) {
+          L.marker([data.latitud, data.longitud]).addTo(map)
+            .bindPopup(
+              `<b>Incidente:</b> ${data.tipoIncidente}<br>
+               <b>Sereno:</b> ${data.tipoSereno}<br>
+               <b>Fecha:</b> ${new Date(data.fecha.seconds * 1000).toLocaleString()}`
+            );
+        }
+      });
+    }
+
+    mostrarReportes(); // Al cargar la página
 
     window.obtenerUbicacion = function () {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
-          var lat = position.coords.latitude;
-          var lon = position.coords.longitude;
+          const lat = position.coords.latitude;
+          const lon = position.coords.longitude;
           document.getElementById("latitud").value = lat;
           document.getElementById("longitud").value = lon;
 
@@ -115,11 +133,8 @@
         alert("Reporte enviado con ID: " + docRef.id);
         document.getElementById("reporteForm").reset();
 
-        if (marcador) {
-          map.removeLayer(marcador);
-        }
-        marcador = L.marker([latitud, longitud]).addTo(map)
-          .bindPopup("Incidente: " + tipoIncidente).openPopup();
+        L.marker([latitud, longitud]).addTo(map)
+          .bindPopup(`Incidente: ${tipoIncidente}<br>Sereno: ${tipoSereno}`).openPopup();
         map.setView([latitud, longitud], 15);
 
       } catch (error) {
