@@ -1,116 +1,132 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reporte de Incidentes</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reporte de Incidentes</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 </head>
 <body>
-    <h1>Reporte de Incidentes</h1>
-    <form id="reporteForm">
-        <label for="tipoSereno">Tipo de Sereno:</label>
-        <select id="tipoSereno">
-            <option value="a_pie">Sereno a Pie</option>
-            <option value="motorizado">Motorizado</option>
-            <option value="escuadron_drones">Escuadrón de Drones</option>
-        </select>
+  <h1>Reporte de Incidentes</h1>
+  <form id="reporteForm">
+    <label for="tipoSereno">Tipo de Sereno:</label>
+    <select id="tipoSereno">
+      <option value="a_pie">Sereno a Pie</option>
+      <option value="motorizado">Motorizado</option>
+      <option value="escuadron_drones">Escuadrón de Drones</option>
+    </select>
 
-        <label for="tipoIncidente">Tipo de Incidente:</label>
-        <select id="tipoIncidente">
-            <option value="robo">Robo o Hurto</option>
-            <option value="accidente">Accidente de Tránsito</option>
-            <option value="violencia">Violencia Familiar o de Género</option>
-            <option value="sospechosos">Personas Sospechosas</option>
-            <option value="medico">Emergencias Médicas</option>
-            <option value="incendio">Incendios o Fugas de Gas</option>
-            <option value="drogas">Consumo de Alcohol o Drogas en la Vía Pública</option>
-            <option value="vandalismo">Actos de Vandalismo</option>
-            <option value="obstruccion">Obstrucción de la Vía Pública</option>
-        </select>
+    <label for="tipoIncidente">Tipo de Incidente:</label>
+    <select id="tipoIncidente">
+      <option value="robo">Robo o Hurto</option>
+      <option value="accidente">Accidente de Tránsito</option>
+      <option value="violencia">Violencia Familiar o de Género</option>
+      <option value="sospechosos">Personas Sospechosas</option>
+      <option value="medico">Emergencias Médicas</option>
+      <option value="incendio">Incendios o Fugas de Gas</option>
+      <option value="drogas">Consumo de Alcohol o Drogas en la Vía Pública</option>
+      <option value="vandalismo">Actos de Vandalismo</option>
+      <option value="obstruccion">Obstrucción de la Vía Pública</option>
+    </select>
 
-        <button type="button" onclick="obtenerUbicacion()">Usar mi Ubicación</button>
+    <button type="button" onclick="obtenerUbicacion()">Usar mi Ubicación</button>
 
-        <label for="latitud">Latitud:</label>
-        <input type="text" id="latitud" placeholder="Latitud manual">
+    <label for="latitud">Latitud:</label>
+    <input type="text" id="latitud" placeholder="Latitud manual">
 
-        <label for="longitud">Longitud:</label>
-        <input type="text" id="longitud" placeholder="Longitud manual">
+    <label for="longitud">Longitud:</label>
+    <input type="text" id="longitud" placeholder="Longitud manual">
 
-        <button type="button" onclick="enviarReporte()">Enviar Reporte</button>
-    </form>
+    <button type="button" onclick="enviarReporte()">Enviar Reporte</button>
+  </form>
 
-    <div id="map"></div>
+  <div id="map" style="height: 400px;"></div>
 
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script>
-        var map = L.map('map').setView([-12.097, -77.037], 14); // Ubicación inicial en San Isidro
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '© OpenStreetMap'
-        }).addTo(map);
+  <script type="module">
+    // Importar Firebase desde CDN
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
-        var marcador;
+    // Configuración Firebase (usa tus propias claves)
+    const firebaseConfig = {
+      apiKey: "AIzaSyABpCquSKr9z9alFPwZUshXaiVUGYEBbxY",
+      authDomain: "pruebas-c80fc.firebaseapp.com",
+      projectId: "pruebas-c80fc",
+      storageBucket: "pruebas-c80fc.firebasestorage.app",
+      messagingSenderId: "1082394664398",
+      appId: "1:1082394664398:web:362fc3a94d3d28ef191f9f",
+      measurementId: "G-KBXJ4KGHFV"
+    };
 
-        function obtenerUbicacion() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(function(position) {
-                    var lat = position.coords.latitude;
-                    var lon = position.coords.longitude;
-                    document.getElementById("latitud").value = lat;
-                    document.getElementById("longitud").value = lon;
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
 
-                    if (marcador) {
-                        map.removeLayer(marcador);
-                    }
-                    marcador = L.marker([lat, lon]).addTo(map).bindPopup("Mi Ubicación").openPopup();
-                    map.setView([lat, lon], 15);
-                }, function(error) {
-                    alert("No se pudo obtener la ubicación.");
-                });
-            } else {
-                alert("Geolocalización no soportada en este navegador.");
-            }
+    // Leaflet
+    var map = L.map('map').setView([-12.097, -77.037], 14);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap'
+    }).addTo(map);
+    var marcador;
+
+    window.obtenerUbicacion = function () {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function (position) {
+          var lat = position.coords.latitude;
+          var lon = position.coords.longitude;
+          document.getElementById("latitud").value = lat;
+          document.getElementById("longitud").value = lon;
+
+          if (marcador) {
+            map.removeLayer(marcador);
+          }
+          marcador = L.marker([lat, lon]).addTo(map).bindPopup("Mi Ubicación").openPopup();
+          map.setView([lat, lon], 15);
+        }, function () {
+          alert("No se pudo obtener la ubicación.");
+        });
+      } else {
+        alert("Geolocalización no soportada.");
+      }
+    }
+
+    window.enviarReporte = async function () {
+      const tipoSereno = document.getElementById("tipoSereno").value;
+      const tipoIncidente = document.getElementById("tipoIncidente").value;
+      const latitud = document.getElementById("latitud").value;
+      const longitud = document.getElementById("longitud").value;
+
+      if (!latitud || !longitud) {
+        alert("Ingrese o capture la ubicación.");
+        return;
+      }
+
+      try {
+        const docRef = await addDoc(collection(db, "reportes"), {
+          tipoSereno,
+          tipoIncidente,
+          latitud: parseFloat(latitud),
+          longitud: parseFloat(longitud),
+          fecha: new Date()
+        });
+
+        alert("Reporte enviado con ID: " + docRef.id);
+        document.getElementById("reporteForm").reset();
+
+        if (marcador) {
+          map.removeLayer(marcador);
         }
+        marcador = L.marker([latitud, longitud]).addTo(map)
+          .bindPopup("Incidente: " + tipoIncidente).openPopup();
+        map.setView([latitud, longitud], 15);
 
-        function enviarReporte() {
-            const tipoSereno = document.getElementById("tipoSereno").value;
-            const tipoIncidente = document.getElementById("tipoIncidente").value;
-            const latitud = document.getElementById("latitud").value;
-            const longitud = document.getElementById("longitud").value;
-
-            if (!latitud || !longitud) {
-                alert("Ingrese o capture la ubicación.");
-                return;
-            }
-
-            const url = "https://script.google.com/macros/s/AKfycbzmlzb4W9A4zX6wBkdD_-Jjpg3vl3kJJ3-JjiMcgRnUaYMW7igLcfKnOnkfxrY8OAyU/exec";
-            const data = new FormData();
-            data.append("tipoSereno", tipoSereno);
-            data.append("tipoIncidente", tipoIncidente);
-            data.append("latitud", latitud);
-            data.append("longitud", longitud);
-
-            fetch(url, {
-                method: "POST",
-                body: data
-            })
-            .then(response => response.text())
-            .then(data => {
-                alert("Reporte enviado correctamente.");
-                document.getElementById("reporteForm").reset();
-
-                // Agregar marcador al mapa
-                if (marcador) {
-                    map.removeLayer(marcador);
-                }
-                marcador = L.marker([latitud, longitud]).addTo(map)
-                    .bindPopup("Incidente: " + tipoIncidente).openPopup();
-                map.setView([latitud, longitud], 15);
-            })
-            .catch(error => alert("Error al enviar reporte."));
-        }
-    </script>
+      } catch (error) {
+        console.error("Error al enviar reporte: ", error);
+        alert("Error al enviar el reporte.");
+      }
+    }
+  </script>
 </body>
 </html>
