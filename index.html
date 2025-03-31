@@ -9,6 +9,11 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
 </head>
 <body>
+  <header style="background-color: #004B87; color: white; padding: 15px; text-align: center; display: flex; align-items: center; justify-content: center; gap: 15px;">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/2/2d/Escudo_de_San_Isidro.svg" alt="Logo San Isidro" style="height: 50px;">
+    <h2 style="margin: 0;">Municipalidad de San Isidro</h2>
+  </header>
+
   <h1>Reporte de Incidentes</h1>
   <form id="reporteForm">
     <label for="tipoSereno">Tipo de Sereno:</label>
@@ -31,14 +36,15 @@
       <option value="obstruccion">Obstrucción de la Vía Pública</option>
     </select>
 
-    <button type="button" onclick="obtenerUbicacion()">Usar mi Ubicación</button>
-    <p><strong>O haz clic en el mapa para marcar la ubicación del incidente.</strong></p>
+    <button type="button" onclick="centrarEnUbicacion()">Usar mi Ubicación</button>
+    <p><strong>Haz doble clic en el mapa para marcar la ubicación del incidente.</strong></p>
     <button type="button" onclick="enviarReporte()">Enviar Reporte</button>
   </form>
 
   <div id="map" style="height: 400px; margin-top: 20px;"></div>
-  <div style="text-align: center; margin-bottom: 20px;">
-    <button onclick="trazarRuta()" style="width: auto; padding: 10px 20px; margin-top: 20px;">Trazar Ruta al Incidente</button>
+  <div style="text-align: center; margin-bottom: 10px;">
+    <button onclick="trazarRuta()" style="padding: 10px 20px;">Trazar Ruta al Incidente</button>
+    <button onclick="cancelarRuta()" style="padding: 10px 20px; background-color: crimson; color: white;">Cancelar Ruta</button>
   </div>
   <div id="infoRuta" style="text-align: center; font-weight: bold; color: #444; margin-bottom: 40px;"></div>
 
@@ -69,6 +75,7 @@
 
     let marcador;
     let circuloUsuario = null;
+    let marcadorUsuario = null;
     let latSeleccionada = null;
     let lonSeleccionada = null;
     let ubicacionUsuario = null;
@@ -87,21 +94,62 @@
 
     function mostrarUbicacionUsuario(lat, lon) {
       if (circuloUsuario) map.removeLayer(circuloUsuario);
+      if (marcadorUsuario) map.removeLayer(marcadorUsuario);
+
+      const zoom = map.getZoom();
+      const dynamicRadius = Math.max(50, 1200 / zoom);
+
       circuloUsuario = L.circle([lat, lon], {
         color: "green",
         fillColor: "#0f0",
-        fillOpacity: 0.4,
-        radius: 20
-      }).addTo(map).bindPopup("Mi ubicación actual");
+        fillOpacity: 0.3,
+        radius: dynamicRadius
+      }).addTo(map);
+
+      marcadorUsuario = L.circleMarker([lat, lon], {
+        radius: 5,
+        color: "#006400",
+        fillColor: "#00FF00",
+        fillOpacity: 1
+      }).addTo(map).bindPopup("Mi ubicación exacta");
+
       ubicacionUsuario = [lat, lon];
     }
 
-    map.on("click", function (e) {
+    function centrarEnUbicacion() {
+      if (ubicacionUsuario) {
+        map.setView(ubicacionUsuario, 16);
+      } else {
+        alert("Esperando ubicación del usuario...");
+      }
+    }
+
+    map.on("zoomend", function () {
+      if (ubicacionUsuario) {
+        mostrarUbicacionUsuario(ubicacionUsuario[0], ubicacionUsuario[1]);
+      }
+    });
+
+    if (navigator.geolocation) {
+      watchID = navigator.geolocation.watchPosition(position => {
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
+        mostrarUbicacionUsuario(lat, lon);
+      }, error => {
+        console.warn("Error con geolocalización continua:", error);
+      }, {
+        enableHighAccuracy: true,
+        maximumAge: 1000,
+        timeout: 5000
+      });
+    }
+
+    map.on("dblclick", function (e) {
       latSeleccionada = e.latlng.lat;
       lonSeleccionada = e.latlng.lng;
       if (marcador) map.removeLayer(marcador);
       marcador = L.marker([latSeleccionada, lonSeleccionada]).addTo(map)
-        .bindPopup("Ubicación seleccionada").openPopup();
+        .bindPopup("Ubicación seleccionada para reporte").openPopup();
     });
 
     async function mostrarReportes() {
@@ -125,6 +173,13 @@
       recientes.forEach((data, index) => {
         const icono = index === 0 ? iconRojo : iconCeleste;
         L.marker([data.latitud, data.longitud], { icon: icono }).addTo(map)
+          .on('click', function () {
+            latSeleccionada = data.latitud;
+            lonSeleccionada = data.longitud;
+            if (marcador) map.removeLayer(marcador);
+            marcador = L.marker([latSeleccionada, lonSeleccionada]).addTo(map)
+              .bindPopup("Destino seleccionado").openPopup();
+          })
           .bindPopup(`<b>Incidente:</b> ${data.tipoIncidente}<br>
                       <b>Sereno:</b> ${data.tipoSereno}<br>
                       <b>Fecha:</b> ${data.fecha.toLocaleString()}`);
@@ -133,33 +188,12 @@
 
     mostrarReportes();
 
-    window.obtenerUbicacion = function () {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function (position) {
-          const lat = position.coords.latitude;
-          const lon = position.coords.longitude;
-          latSeleccionada = lat;
-          lonSeleccionada = lon;
-
-          if (marcador) map.removeLayer(marcador);
-          marcador = L.marker([lat, lon]).addTo(map).bindPopup("Ubicación seleccionada").openPopup();
-          map.setView([lat, lon], 15);
-
-          mostrarUbicacionUsuario(lat, lon);
-        }, function () {
-          alert("No se pudo obtener la ubicación.");
-        });
-      } else {
-        alert("Geolocalización no soportada.");
-      }
-    }
-
     window.enviarReporte = async function () {
       const tipoSereno = document.getElementById("tipoSereno").value;
       const tipoIncidente = document.getElementById("tipoIncidente").value;
 
       if (!latSeleccionada || !lonSeleccionada) {
-        alert("Selecciona una ubicación en el mapa o usa tu ubicación actual.");
+        alert("Haz doble clic en el mapa para seleccionar una ubicación.");
         return;
       }
 
@@ -184,7 +218,7 @@
 
     window.trazarRuta = function () {
       if (!ubicacionUsuario || !latSeleccionada || !lonSeleccionada) {
-        alert("Debes capturar tu ubicación y seleccionar un incidente.");
+        alert("Selecciona un destino primero.");
         return;
       }
 
@@ -206,25 +240,13 @@
         const min = Math.round(ruta.summary.totalTime / 60);
         document.getElementById("infoRuta").innerText = `Distancia: ${km} km | Tiempo estimado: ${min} min`;
       }).addTo(map);
+    }
 
-      if (navigator.geolocation) {
-        if (watchID) navigator.geolocation.clearWatch(watchID);
-
-        watchID = navigator.geolocation.watchPosition(position => {
-          ubicacionUsuario = [position.coords.latitude, position.coords.longitude];
-
-          routingControl.setWaypoints([
-            L.latLng(ubicacionUsuario[0], ubicacionUsuario[1]),
-            L.latLng(latSeleccionada, lonSeleccionada)
-          ]);
-
-          mostrarUbicacionUsuario(ubicacionUsuario[0], ubicacionUsuario[1]);
-        }, error => {
-          console.warn("Error obteniendo movimiento:", error);
-        }, {
-          enableHighAccuracy: true,
-          maximumAge: 1000
-        });
+    window.cancelarRuta = function () {
+      if (routingControl) {
+        map.removeControl(routingControl);
+        routingControl = null;
+        document.getElementById("infoRuta").innerText = "";
       }
     }
   </script>
