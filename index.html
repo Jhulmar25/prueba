@@ -10,7 +10,7 @@
 </head>
 <body>
   <header style="background-color: #004B87; color: white; padding: 15px; text-align: center; display: flex; align-items: center; justify-content: center; gap: 15px;">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/2/2d/Escudo_de_San_Isidro.svg" alt="Logo San Isidro" style="height: 50px;">
+    <img src="imagenes/logo.jpg" alt="Logo San Isidro" style="height: 50px;">
     <h2 style="margin: 0;">Municipalidad de San Isidro</h2>
   </header>
 
@@ -135,6 +135,15 @@
         const lat = position.coords.latitude;
         const lon = position.coords.longitude;
         mostrarUbicacionUsuario(lat, lon);
+
+        // Actualizar ruta automáticamente en movimiento
+        if (routingControl && latSeleccionada && lonSeleccionada) {
+          routingControl.setWaypoints([
+            L.latLng(lat, lon),
+            L.latLng(latSeleccionada, lonSeleccionada)
+          ]);
+        }
+
       }, error => {
         console.warn("Error con geolocalización continua:", error);
       }, {
