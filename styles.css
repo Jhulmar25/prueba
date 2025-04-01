@@ -1,955 +1,145 @@
-/* Estilo general */
-body {
-    font-family: Arial, sans-serif; /* Establece la fuente principal del cuerpo */
-    margin: 0; /* Elimina los márgenes predeterminados */
-    padding: 0; /* Elimina el padding predeterminado */
-    box-sizing: border-box; /* Hace que el padding y el borde se incluyan en el tamaño total de los elementos */
-    background-color: #f5f5f5; /* Establece un color de fondo suave para la página */
-    color: #333; /* Establece un color de texto oscuro */
-}
 
-/* Header: diseño y estructura del encabezado */
-.header {
-    display: flex; /* Usa Flexbox para el diseño flexible */
-    justify-content: space-between; /* Espacio entre los elementos dentro del encabezado */
-    align-items: center; /* Alinea verticalmente los elementos en el centro */
-    padding: 10px 25px; /* Padding para el encabezado */
-    background: #fff; /* Fondo blanco para el encabezado */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Agrega sombra sutil al encabezado */
-    position: relative; /* Para permitir un control de posición relativo */
-    flex-wrap: wrap; /* Permite que los elementos se acomoden en múltiples filas si es necesario */
-    z-index: 999; /* Asegura que el encabezado esté siempre por encima de otros elementos */
-}
-
-/* Contenedor del logo y el texto */
-.logo-title {
-    display: flex; /* Usa Flexbox para alinear logo y texto */
-    align-items: center; /* Alinea verticalmente el logo y el texto */
-    gap: 20px; /* Espacio entre el logo y el texto */
-    flex: 1; /* Permite que el contenedor del logo ocupe el espacio disponible */
-    justify-content: flex-start; /* Alinea el logo y texto hacia la izquierda */
-}
-
-/* Estilo del logo */
-.logo-title img {
-    width: 70px; /* Define el tamaño del logo */
-}
-
-/* Estilo del título */
-.logo-title h1 {
-    font-family: 'Playfair Display', serif; /* Fuente serif elegante para el título */
-    font-size: 2rem; /* Tamaño grande de la fuente para el título */
-    color: #3d3d3d; /* Color gris oscuro para el texto */
-    margin: 0; /* Elimina el margen predeterminado */
-    font-weight: 700; /* Peso de la fuente en negrita */
-    letter-spacing: 1.1px; /* Espaciado entre las letras */
-    text-transform: uppercase; /* Convierte el texto a mayúsculas */
-    text-shadow: 5px 5px 8px rgba(0, 0, 0, 0.1); /* Sombra sutil para el texto */
-    transition: color 0.3s ease, transform 0.3s ease, text-shadow 0.3s ease; /* Transición suave para efectos */
-}
-
-/* Efecto de hover sobre el título */
-.logo-title h1:hover {
-    color: #e60000; /* Cambia el color del texto a rojo */
-    text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.3); /* Aumenta la sombra para un efecto de resplandor */
-    transform: scale(1.05); /* Aumenta ligeramente el tamaño del texto */
-}
-
-/* Barra de navegación */
-.navbar ul {
-    list-style: none; /* Elimina los puntos de lista predeterminados */
-    display: flex; /* Usa Flexbox para organizar los elementos en línea */
-    gap: 15px; /* Espacio entre los enlaces */
-    margin: 0; /* Elimina el margen predeterminado */
-    padding: 0; /* Elimina el padding predeterminado */
-    flex-wrap: nowrap; /* Evita que los elementos se envuelvan en una nueva fila */
-    justify-content: flex-end; /* Alinea los enlaces a la derecha */
-    flex: 1; /* Permite que la barra de navegación ocupe el espacio disponible */
-}
-
-/* Estilo de los enlaces de navegación */
-.navbar a {
-    text-decoration: none; /* Elimina el subrayado predeterminado de los enlaces */
-    color: #494949; /* Color de texto oscuro por defecto */
-    font-weight: bold; /* Fuente en negrita */
-    font-size: 1rem; /* Tamaño de fuente base */
-    transition: all 0.3s ease; /* Transición suave para todos los efectos */
-    padding: 5px 10px; /* Espaciado dentro de los enlaces */
-    border-radius: 5px; /* Bordes redondeados para los enlaces */
-}
-
-/* Efecto de hover sobre los enlaces de navegación */
-.navbar a:hover {
-    color: #f34343; /* Cambia el color del texto a blanco */
-    
-    transform: scale(1.1); /* Aumenta ligeramente el tamaño */
-    text-decoration: underline; /* Subraya el texto */
-    letter-spacing: 1px; /* Añade un pequeño espaciado entre letras */
-}
-
-/* Estilo del botón en la barra de navegación */
-.navbar .btn {
-    background: #f34343; /* Fondo rojo para el botón */
-    color: #fff; /* Color del texto en blanco */
-    padding: 10px 20px; /* Espaciado dentro del botón */
-    border-radius: 10px; /* Bordes redondeados para el botón */
-    font-size: 1.1rem; /* Tamaño de fuente ligeramente más grande */
-    font-weight: 700; /* Fuente en negrita */
-    transition: background 0.3s ease; /* Transición suave para el cambio de color de fondo */
-}
-
-/* Efecto de hover sobre el botón */
-.navbar .btn:hover {
-    background: #f34343; /* Fondo rojo más oscuro cuando se pasa el ratón */
-    color: #fff;
-}
-
-/* Media queries para pantallas pequeñas */
-
-/* Pantallas hasta 1024px (tablets pequeñas y dispositivos grandes) */
-@media (max-width: 1024px) {
-    .header {
-        flex-direction: row; /* Alineación de los elementos en fila */
-        justify-content: space-between; /* Espacio entre los elementos */
-        padding: 15px 20px; /* Reduce el padding del encabezado */
-    }
-
-    .logo-title {
-        gap: 15px; /* Reduce el espacio entre el logo y el texto */
-    }
-
-    .logo-title img {
-        width: 60px; /* Reduce el tamaño del logo */
-    }
-
-    .logo-title h1 {
-        font-size: 1.8rem; /* Reduce el tamaño del texto del título */
-    }
-
-    .navbar ul {
-        gap: 15px; /* Reduce el espacio entre los enlaces */
-        justify-content: flex-start; /* Alinea los enlaces hacia la izquierda */
-        flex: 1; /* Deja que la barra de navegación ocupe el espacio disponible */
-    }
-
-    .navbar a {
-        font-size: 0.95rem; /* Reduce el tamaño de los enlaces */
-        padding: 10px 15px; /* Ajusta el padding de los enlaces */
-    }
-
-    .navbar .btn {
-        padding: 12px 15px; /* Ajusta el padding del botón */
-        font-size: 1rem; /* Reduce el tamaño de la fuente del botón */
-    }
-}
-
-/* Pantallas hasta 768px (tablets y dispositivos móviles grandes) */
-@media (max-width: 768px) {
-    .header {
-        flex-direction: row; /* Alineación de los elementos en fila */
-        justify-content: space-between; /* Espacio entre los elementos */
-        padding: 10px 15px; /* Ajusta el padding del encabezado */
-    }
-
-    .logo-title {
-        gap: 10px; /* Espacio reducido entre el logo y el texto */
-    }
-
-    .logo-title img {
-        width: 50px; /* Reduce el tamaño del logo aún más */
-    }
-
-    .logo-title h1 {
-        font-size: 1.5rem; /* Reduce el tamaño del texto del título */
-    }
-
-    .navbar ul {
-        gap: 10px; /* Espacio reducido entre los enlaces */
-        justify-content: flex-start; /* Alinea los enlaces hacia la izquierda */
-    }
-
-    .navbar a {
-        font-size: 0.9rem; /* Reduce el tamaño de los enlaces */
-        padding: 8px 12px; /* Ajusta el padding de los enlaces */
-    }
-
-    .navbar .btn {
-        padding: 8px 12px; /* Ajusta el padding del botón */
-        font-size: 1rem; /* Ajusta el tamaño del botón */
-    }
-}
-
-/* Pantallas hasta 480px (dispositivos móviles pequeños) */
-@media (max-width: 480px) {
-    .header {
-        padding: 10px 15px; /* Ajusta el padding del encabezado */
-    }
-
-    .logo-title img {
-        width: 30px; /* Reduce el tamaño del logo aún más */
-    }
-
-    .logo-title h1 {
-        font-size: 1rem; /* Reduce el tamaño del texto del título */
-    }
-
-    .navbar ul {
-        gap: 5px; /* Espacio reducido entre los enlaces */
-    }
-
-    .navbar a {
-        font-size: 0.7rem; /* Ajusta el tamaño de los enlaces */
-        padding: 5px 5px; /* Ajusta el padding de los enlaces */
-    }
-
-    .navbar .btn {
-        width: auto; /* Deja que el botón ajuste su ancho automáticamente */
-        padding: 6px 5px; /* Ajusta el padding del botón */
-        font-size: 0.65rem; /* Ajusta el tamaño de la fuente del botón */
-    }
-}
-
-
-
-/* Banner */
-.banner {
-    display: flex;
-    align-items: center;
-    background: #f5f5f5;
-    padding: 10px 0px;
-    flex-wrap: wrap; /* Permite que los elementos se ajusten en pantallas pequeñas */
-}
-
-.banner-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    max-width: 1500px;
-    margin: 0 auto;
-    width: 100%; /* Asegura que el banner ocupe todo el ancho disponible */
-    flex-wrap: wrap; /* Permite que los elementos se ajusten en pantallas pequeñas */
-}
-
-.banner-text {
-    flex: 1;
-    padding: 120px 30px;
-    background: #d42424;
-    color: white;
-    border-radius: 5px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-/* Banner text styling */
-.banner-text h1 {
-    font-size: 2rem;
-    margin-bottom: 10px;
-}
-
-.banner-text p {
-    font-size: 1.1rem;
-    margin-bottom: 20px;
-}
-
-/* Button styling */
-.banner-text .btn {
-    background: white;
-    color: #e60000;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    text-decoration: none;
-    font-weight: bold;
-    position: relative;
-    top: 10px;
-    left: 0px;
-}
-
-/* Imagen del banner */
-.banner-image img {
-    width: 100%;
-    max-height: 500px;
-    object-fit: cover;
-    border-radius: 5px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-/* Media queries para pantallas pequeñas */
-@media (max-width: 768px) {
-    .banner-container {
-        flex-direction: column; /* Coloca los elementos en columna en pantallas pequeñas */
-        align-items: center;
-    }
-
-    .banner-text {
-        padding: 50px 20px; /* Ajusta el padding para pantallas más pequeñas */
-        text-align: center; /* Centra el texto */
-    }
-
-    .banner-text .btn {
-        padding: 8px 15px; /* Ajusta el tamaño del botón */
-        font-size: 1rem; /* Ajusta el tamaño de la fuente */
-    }
-
-    .banner-image img {
-        max-height: 300px; /* Limita la altura de la imagen */
-    }
-}
-
-@media (max-width: 480px) {
-    .banner-text h1 {
-        font-size: 1.5rem; /* Ajusta el tamaño del título */
-    }
-
-    .banner-text p {
-        font-size: 1rem; /* Ajusta el tamaño del texto */
-    }
-
-    .banner-text .btn {
-        padding: 6px 12px; /* Ajusta el tamaño del botón para pantallas muy pequeñas */
-        font-size: 0.9rem; /* Ajusta el tamaño de la fuente */
-    }
-
-    .banner-image img {
-        max-height: 250px; /* Limita aún más la altura de la imagen en pantallas muy pequeñas */
-    }
-}
-
-
-
-/* Programas Académicos */
-.programas {
-    padding: 40px 20px;
-    text-align: center;
-}
-
-/* Estilo para el título de la sección "Cursos de Especialización" */
-.programas h2 {
-    font-family: 'Roboto', sans-serif; /* Usa una fuente moderna */
-    font-size: 5vw; /* El tamaño de la fuente se ajusta al 5% del ancho de la ventana */
-    font-weight: bold;
-    color: #333; /* Usamos un color gris oscuro para el texto principal */
-    text-transform: uppercase; /* Convierte el texto en mayúsculas */
-    letter-spacing: 2px; /* Espaciado entre letras */
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil */
-    margin-bottom: 10px; /* Reducimos el espacio debajo del título */
-    position: relative;
-}
-
-/* Agregar un subrayado rojo que ocupe todo el ancho */
-.programas h2::after {
-    content: ""; /* Pseudo-elemento para agregar un subrayado */
-    position: absolute;
-    bottom: -5px; /* Coloca el subrayado justo debajo del texto */
-    left: 0;
-    width: 100%; /* Hace que la línea ocupe todo el ancho */
-    height: 4px; /* Grosor del subrayado */
-    background-color: #f93737; /* Un rojo más suave para el subrayado */
-    border-radius: 5px; /* Bordes redondeados para el subrayado */
-}
-
-/* Ajustes específicos para pantallas más pequeñas */
-@media (max-width: 768px) {
-    .programas h2 {
-        font-size: 6vw; /* El tamaño de la fuente se ajusta aún más para pantallas más pequeñas */
-        letter-spacing: 3px; /* Ajustamos el espaciado entre las letras para mejor visualización */
-    }
-
-    .programas h2::after {
-        height: 3px; /* Reducimos el grosor del subrayado en pantallas pequeñas */
-    }
-}
-
-/* Ajustes para pantallas muy pequeñas (móviles) */
-@media (max-width: 480px) {
-    .programas h2 {
-        font-size: 7vw; /* El tamaño de la fuente se ajusta aún más */
-        letter-spacing: 4px; /* Ajuste adicional para pantallas pequeñas */
-    }
-
-    .programas h2::after {
-        height: 2px; /* Reducimos aún más el grosor del subrayado */
-    }
-}
-
-
-
-
-.cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 20px;
-}
-
-.card {
-   
-    border: none;
-    padding: 15px;
-    background-color: rgb(244, 242, 242);
-    border-radius: 8px;
-    transition: all 0.3s ease;
-    margin-top: 20px; /* Espacio agregado entre la línea roja y las cartas */
-
-}
-
-.cards img {
-    width: 60px; /* Tamaño fijo para las imágenes de las tarjetas */
-    height: auto;
-    margin-bottom: 0px; /* Espaciado debajo de la imagen */
-}
-.cards .card:nth-child(1) img {
-    width: 280px; /* Ajusta el tamaño deseado */
-    height: auto;
-}
-
-.cards .card:nth-child(2) img {
-    width: 280px; /* Ajusta el tamaño deseado */
-    height: 187px;
-}
-
-.cards .card:nth-child(3) img {
-    width: 280px; /* Ajusta el tamaño deseado */
-    height: 187px;
-}
-
-.cards .card:nth-child(4) img {
-    width: 280px; /* Ajusta el tamaño deseado */
-    height: 187px;
-}
-
-.card h3 {
-    font-family: 'Montserrat', sans-serif; /* Fuente moderna y profesional */
-    font-size: 1.2rem; /* Tamaño moderado */
-    color: #2C3E50; /* Color más sobrio y elegante (azul oscuro) */
-    font-weight: 700; /* Peso medio-alto para dar presencia */
-    letter-spacing: 1px; /* Ligero espaciado entre las letras */
-    text-transform: uppercase; /* Letras en mayúsculas para mayor impacto */
-    position: relative;
-    padding: 10px 0; /* Espaciado para mejor alineación */
-    background: linear-gradient(135deg, #3498db, #2ecc71); /* Gradiente suave de colores complementarios */
-    -webkit-background-clip: text; /* Aplica el gradiente al texto */
-    color: transparent; /* Hace el texto transparente para mostrar el gradiente */
-    transition: transform 0.3s ease, letter-spacing 0.3s ease; /* Transición suave */
-    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2); /* Sombra sutil para profundidad */
-}
-
-/* Hover: cuando el mouse pasa por encima */
-.card h3:hover {
-    
-    letter-spacing: 1.2px; /* Aumenta el espaciado de las letras para un efecto dinámico */
-    transform: scale(1.0); /* Agranda el texto un poco al pasar el mouse */
-    
-}
-.card {
-    border: none;
-    padding: 15px;
-    transition: all 0.3s ease; /* Suaviza la transición de las cartas */
-}
-
-.card:hover {
-    transform: scale(1.05); /* Aumento en el tamaño de la carta */
-    box-shadow: 0 10px 30px rgba(8, 8, 8, 0.1); /* Agrega más sombra en la carta */
-}
-
-
-
-
-/* Justificar los textos específicos de los cursos */
-.card p {
-    text-align: justify; /* Justifica el texto */
-    font-size: 1rem;
-    color: #666;
-}
-
-/* Asegurarnos de que estos textos no afecten a otros elementos */
-.card:nth-child(1) p, /* Para el primer texto */
-.card:nth-child(2) p, /* Para el segundo texto */
-.card:nth-child(3) p, /* Para el tercer texto */
-.card:nth-child(4) p { /* Para el cuarto texto */
-    text-align: justify; /* Justifica solo los textos deseados */
-}
-
-
-/* Footer */
-footer {
-    text-align: center;
-    background: #333;
-    color: rgb(174, 171, 171);
-    padding: 5px 5px;
-    font-size: 0.9rem; 
-    font-weight: 400; /* Hacer el texto más delgado */
-} 
-footer p {
-    margin-top: 0px; /* Agregar margen para mover el texto aún más abajo */
-}
-/* Estilo general para la sección Conócenos */
-.conocenos {
-    padding: 20px;
-    background-color: #f4f4f4;
-    text-align: center;
-}
-
-/* Estilo para los subtítulos dentro de la sección */
-.conocenos h2 {
-    font-size: 2rem;
-    margin-bottom: 20px;
-    font-weight: bold;
-    text-transform: uppercase;
-    color: #6cb2f7;
-    position: relative;
-    display: inline-block;
-    padding-bottom: 10px;  /* Espacio para el subrayado */
-}
-
-/* Subrayado rojo debajo de los h2 */
-.conocenos h2::after {
-    content: "";
-    display: block;
-    width: 100%;
-    height: 3px;
-    background-color: rgb(232, 171, 171); /* Color rojo para el subrayado */
-    position: absolute;
-    bottom: 0;
-    left: 0;
-}
-
-/* Estilo para los párrafos dentro de la sección */
-.conocenos p {
-    font-size: 1rem;
-    line-height: 1.6;
-    color: #333;
-    max-width: 800px; /* Limitar el ancho máximo del párrafo */
-    margin: 0 auto 20px; /* Centrar y agregar espacio debajo */
-    text-align: justify; /* Justificar el texto */
-}
-
-
-/* Asegura que la página use todo el espacio disponible */
-body, html {
+/* RESET GENERAL */
+* {
     margin: 0;
     padding: 0;
-    height: 100%;
-    font-family: Arial, sans-serif;
-    overflow-x: hidden; /* Evita el desplazamiento horizontal */
-}
-
-
-/* Sección de contacto */
-#contactanos {
-    position: relative;
-    width: 100%;
-    height: 600px; /* Aumenté la altura de la imagen para que haya más espacio */
-    overflow: hidden;
-    margin-bottom: 10px; /* Agrega más espacio debajo de la sección */
-}
-
-/* Estilo de la imagen de contacto */
-.imagen-contacto {
-    width: 100%; /* Hace que la imagen ocupe el ancho completo */
-    height: 100%; /* Hace que la imagen ocupe toda la altura */
-    object-fit: cover; /* Asegura que la imagen cubra todo el área sin deformarse */
-}
-
-/* Estilo del texto "Contáctanos" */
-.texto-contacto {
-    position: absolute;
-    top: 50%; /* Coloca el texto en el centro verticalmente */
-    left: 50%; /* Coloca el texto en el centro horizontalmente */
-    transform: translate(-50%, -50%); /* Ajusta el texto para que quede perfectamente centrado */
-    color: white; /* Color del texto */
-    font-size: 3rem; /* Tamaño del texto */
-    font-weight: bold; /* Estilo de texto negrita */
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Agrega una sombra para mayor visibilidad */
-    text-align: center;
-}
-
-
-
-/* Contenedor principal de la galería */
-.imagenes-cursos {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-    background-color: #f7f5f5;
-}
-
-/* Galería con las imágenes apiladas verticalmente */
-.galeria {
-    display: flex;
-    flex-direction: column;  /* Apilar las imágenes verticalmente */
-    gap: 20px;  /* Espacio entre las imágenes */
-    max-width: 800px;  /* Ancho máximo reducido para las imágenes */
-    width: 100%;
-    margin-top: 20px;
-}
-
-/* Estilos para las imágenes */
-.galeria img {
-    width: 100%;
-    height: auto;
-    object-fit: cover;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    transition: transform 0.3s ease;
-}
-
-.galeria img:hover {
-    transform: scale(1.05);  /* Efecto de ampliación al pasar el ratón */
-}
-
-/* Botón para volver a los cursos */
-.imagenes-cursos button {
-    margin-top: 30px;
-    background-color: #77b7f8;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f9fafb;
+    color: #2c3e50;
+  }
+  
+  /* ENCABEZADO */
+  header {
+    background-color: #1B3B2F;
     color: white;
-    padding: 12px 20px;
-    border: none;
-    font-size: 18px;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
-}
-
-.imagenes-cursos button:hover {
-    background-color: #0f7fe0;
-}
-
-/* Diseño móvil */
-@media (max-width: 768px) {
-    .imagenes-cursos button {
-        width: 100%; /* El botón ocupará el 100% en dispositivos móviles */
-    }
-}
-
-
-
-/* Estilo para la imagen de contacto */
-.imagen-contacto {
-    width: 100%; /* Ajustar la imagen al 100% del contenedor */
-    max-height: 400px; /* Limitar la altura máxima */
-    object-fit: cover; /* Asegurarse de que la imagen cubra el área sin deformarse */
-}
-
-/* Estilo para el contenedor debajo de la imagen */
-.contenedor-debajo-imagen {
-    background-color: #00796b; /* Fondo azul suave profundo */
-    padding: 82px 20px; /* Añadir espacio dentro del contenedor */
-    border-radius: 10px; /* Bordes redondeados */
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2); /* Sombra más pronunciada */
-    display: flex; /* Usar Flexbox para la disposición horizontal */
-    justify-content: space-evenly; /* Alinear los elementos con espacio equitativo */
-    align-items: center; /* Centrado vertical */
-    margin-top: 7px; /* Mover el contenedor hacia abajo */
-}
-
-/* Estilo para los párrafos dentro del contenedor */
-.contenedor-debajo-imagen p {
-    margin: 0 20px; /* Espaciado horizontal entre los párrafos */
-    font-size: 1.5rem; /* Tamaño de letra más grande */
-    line-height: 1.4; /* Espaciado entre líneas ajustado */
-    color: #ffffff; /* Texto en blanco */
-}
-
-/* Estilo para las etiquetas <strong> en el contenedor */
-.contenedor-debajo-imagen strong {
-    font-weight: bold; /* Negrita fuerte */
-    color: #ffffff; /* Texto en blanco para contraste */
-    font-size: 1.8rem; /* Tamaño de fuente mayor para destacar aún más */
-}
-
-/* Ajustes para pantallas más pequeñas */
-@media (max-width: 768px) {
-    /* Reducción de la altura máxima de la imagen */
-    .imagen-contacto {
-        max-height: 50vh; /* Usar un porcentaje de la altura de la ventana */
-    }
-
-    /* Ajustar el padding del contenedor */
-    .contenedor-debajo-imagen {
-        padding: 60px 15px; /* Reducir espacio interior */
-    }
-
-    /* Ajustar el tamaño de los párrafos */
-    .contenedor-debajo-imagen p {
-        font-size: 1.2rem; /* Reducir el tamaño de fuente */
-    }
-
-    /* Ajustar el tamaño de las etiquetas <strong> */
-    .contenedor-debajo-imagen strong {
-        font-size: 1.4rem; /* Reducir el tamaño de fuente */
-    }
-}
-
-/* Ajustes para pantallas más pequeñas (móviles) */
-@media (max-width: 480px) {
-    /* Reducción de la altura máxima de la imagen */
-    .imagen-contacto {
-        max-height: 40vh; /* Hacer la imagen más pequeña */
-    }
-
-    /* Ajustar el padding del contenedor */
-    .contenedor-debajo-imagen {
-        padding: 50px 10px; /* Reducir el espacio interior aún más */
-    }
-
-    /* Ajustar el tamaño de los párrafos */
-    .contenedor-debajo-imagen p {
-        font-size: 1rem; /* Asegurar que el texto no sea demasiado grande */
-    }
-
-    /* Ajustar el tamaño de las etiquetas <strong> */
-    .contenedor-debajo-imagen strong {
-        font-size: 1.2rem; /* Hacer el texto destacado más pequeño */
-    }
-}
-
-
-
-
-
-
-/* Sección principal del formulario */
-#inscribete {
-    background: #0e6292;
-    padding: 40px;
-    border-radius: 10px;
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
-    width: 100%;
-    max-width: 1265px;
-    margin: auto;
-    text-align: center;
-    box-sizing: border-box; /* Asegura que el padding no afecte el tamaño total */
-}
-
-/* Estilos del título */
-h2 {
-    font-family: 'Arial', sans-serif;
-    color: #ffffff;
-    margin-bottom: 20px;
-    font-size: 28px;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-}
-
-/* Estilos del formulario */
-.inscripcion-form {
     display: flex;
-    flex-direction: column;
-    gap: 20px;
     align-items: center;
+    padding: 15px 20px;
+    gap: 15px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  }
+  
+  header img {
+    height: 50px;
+  }
+  
+  header h2 {
+    font-size: 1.5rem;
+  }
+  
+  /* TITULO PRINCIPAL */
+  h1 {
+    text-align: center;
+    padding: 20px 0 10px;
+    color: #1B3B2F;
+  }
+  
+  /* FORMULARIO */
+  form#reporteForm {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+    align-items: center;
+    padding: 15px 20px;
+    background-color: #ffffff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    margin-bottom: 10px;
+  }
+  
+  form label {
+    font-weight: bold;
+    color: #1B3B2F;
+  }
+  
+  form select, form button {
+    padding: 8px 14px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 0.95rem;
+    background-color: white;
+  }
+  
+  form button {
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  form button:hover {
+    opacity: 0.9;
+  }
+  
+  /* BOTONES FUNCIONALES */
+  button[onclick*="centrarEnUbicacion"] {
+    background-color: #265E45;
+    color: white;
+  }
+  
+  button[onclick*="trazarRuta"] {
+    background-color: #3A824F;
+    color: white;
+  }
+  
+  button[onclick*="cancelarRuta"] {
+    background-color: #A52A2A;
+    color: white;
+  }
+  
+  /* BOTÓN ENVIAR */
+  form button[onclick*="enviarReporte"] {
+    background-color: #265E45;
+    color: white;
+    margin-top: 10px;
+  }
+  
+  /* INSTRUCCIONES */
+  form p {
     width: 100%;
-}
-
-/* Agrupamos nombre y apellido en una sola fila */
-.form-group-nombre-apellido {
-    display: flex;
-    justify-content: space-between;
-    gap: 20px;
-    width: 80%;
-}
-
-/* Agrupamos correo y teléfono en una sola fila */
-.form-group-correo-telefono {
-    display: flex;
-    justify-content: space-between;
-    gap: 20px;
-    width: 80%;
-}
-
-/* Estilos de los grupos de campo */
-.form-group {
-    display: flex;
-    flex-direction: column;
-    width: 80%;
-}
-
-/* Estilos de las etiquetas */
-label {
-    color: #fff;
-    margin-bottom: 8px;
-    font-size: 14px;
-    font-weight: 500;
-}
-
-/* Estilos para los inputs, textarea y select */
-input, textarea, select {
-    padding: 12px;
-    border-radius: 8px;
-    border: 2px solid #ddd;
-    font-size: 14px;
+    text-align: center;
+    font-weight: bold;
+    margin: 10px 0 0;
     color: #333;
-    background-color: #fff;
-    transition: all 0.3s ease-in-out;
-    width: 100%; /* Asegura que los campos no se estiren más allá de su contenedor */
-}
-
-/* Efecto de enfoque para los inputs, textarea y select */
-input:focus, textarea:focus, select:focus {
-    border-color: #5c6bc0;
-    outline: none;
-}
-
-/* Estilos para los placeholders */
-input::placeholder, textarea::placeholder {
-    color: #888;
-}
-
-/* Estilos específicos para el textarea */
-textarea {
-    height: 100px;
-    resize: none;
-}
-
-/* Ajustes para pantallas pequeñas (tablets y dispositivos pequeños) */
-@media (max-width: 1024px) {
-    /* Reducción del tamaño de los inputs, textarea y select */
-    input, textarea, select {
-        font-size: 13px;
-        padding: 10px;
+  }
+  
+  /* INFO RUTA */
+  #infoRuta {
+    width: 100%;
+    background-color: #EAF4EE;
+    color: #1B3B2F;
+    font-weight: bold;
+    text-align: center;
+    padding: 10px;
+    border-radius: 6px;
+    margin-bottom: 5px;
+  }
+  
+  /* MAPA */
+  #map {
+    height: 70vh;
+    width: 100%;
+    border-top: 2px solid #1B3B2F;
+    border-bottom: 2px solid #1B3B2F;
+    z-index: 0;
+  }
+  
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    form#reporteForm {
+      flex-direction: column;
+      align-items: stretch;
     }
-
-    /* Ajustar el padding de la sección principal */
-    #inscribete {
-        padding: 30px 20px;
+  
+    form select, form button {
+      width: 100%;
     }
-
-    /* Título más pequeño en pantallas pequeñas */
-    h2 {
-        font-size: 24px;
-        letter-spacing: 1px;
+  
+    #infoRuta {
+      font-size: 0.95rem;
     }
-
-    /* Agrupar nombre y apellido en pantallas pequeñas */
-    .form-group-nombre-apellido, .form-group-correo-telefono {
-        flex-direction: column;
-        gap: 15px;
-        width: 100%;
-    }
-
-    /* Reducir el tamaño de los grupos de campo */
-    .form-group {
-        width: 100%;
-    }
-}
-
-/* Ajustes para pantallas muy pequeñas (móviles) */
-@media (max-width: 480px) {
-    /* Ajuste más estrecho para el formulario */
-    #inscribete {
-        padding: 20px 15px;
-        margin: 0 10px; /* Asegura que haya margen en el lado derecho */
-    }
-
-    /* Título más pequeño */
-    h2 {
-        font-size: 20px;
-    }
-
-    /* Ajustes para los campos de formulario */
-    input, textarea, select {
-        font-size: 12px;
-        padding: 8px;
-    }
-
-    /* Ajustar el tamaño de los grupos de campos */
-    .form-group-nombre-apellido, .form-group-correo-telefono {
-        gap: 10px;
-    }
-
-    .form-group {
-        width: 100%;
-    }
-}
-
-/* Para pantallas grandes (laptops y escritorios), aseguramos que todo se vea bien */
-@media (min-width: 1025px) {
-    #inscribete {
-        padding: 40px;
-        margin: 30px auto;
-    }
-
-    .form-group-nombre-apellido, .form-group-correo-telefono {
-        flex-direction: row;
-        gap: 20px;
-        width: 80%;
-    }
-}
-
-
-
-
-
-
-
-/* Estilos para el botón */
-button {
-    padding: 14px; /* Espaciado interior del botón */
-    background-color: #c360db; /* Fondo azul para el botón */
-    color: #fff; /* Texto blanco para el botón */
-    font-size: 16px; /* Tamaño de la fuente */
-    font-weight: bold; /* Texto en negrita */
-    border: none; /* Elimina el borde predeterminado */
-    border-radius: 8px; /* Bordes redondeados */
-    cursor: pointer; /* Cambia el cursor a puntero */
-    transition: background-color 0.3s ease; /* Transición para el cambio de color */
-    margin-top: 80px; /* Espaciado superior */
-    
-    
-
-}
-
-/* Efecto de hover para el botón */
-button:hover {
-    background-color: #e65959; /* Cambia el color del botón cuando se pasa el ratón sobre él */
-}
-
-/* Efecto de click para el botón */
-button:active {
-    transform: scale(0.98); /* Efecto de reducción del botón al hacer clic */
-}
-
-/* Media query para dispositivos pequeños */
-@media (max-width: 768px) {
-    /* Reorganiza los elementos en columna para pantallas pequeñas */
-    .form-group-nombre-apellido, .form-group-correo-telefono {
-        flex-direction: column; /* Organiza los elementos en columna */
-        width: 100%; /* Ancho completo */
-    }
-
-    button {
-        width: 100%; /* El botón ocupa todo el ancho en pantallas pequeñas */
-    }
-}
-
-
-/* Estilo para el botón de WhatsApp */
-.whatsapp-button {
-    position: fixed; /* El botón se posiciona de manera fija en la pantalla */
-    bottom: 30px; /* Coloca el botón 20 píxeles desde el borde inferior */
-    right: 20px; /* Coloca el botón 20 píxeles desde el borde derecho */
-    background-color: #f8f0f0; /* Establece el color de fondo del botón como verde WhatsApp */
-    border: none; /* Elimina el borde del botón */
-    border-radius: 50%; /* Hace que el botón tenga bordes redondeados, formando un círculo */
-    padding: 5px; /* Disminuye el espacio interno para reducir el contorno verde */
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Añade una sombra para darle un efecto de elevación */
-    cursor: pointer; /* Cambia el cursor a mano cuando el usuario pasa el ratón sobre el botón */
-}
-
-/* Estilo para la imagen dentro del botón */
-.whatsapp-button img {
-    width: 80px; /* Aumenta el tamaño de la imagen a 100 píxeles de ancho */
-    height: 80px; /* Aumenta el tamaño de la imagen a 100 píxeles de alto */
-    object-fit: contain; /* Asegura que la imagen se ajuste correctamente dentro del círculo sin distorsionarse */
-}
-
-/* Estilo para el enlace blanco */
-.link-blanco {
-    color: white; /* Cambia el color del texto del enlace a blanco */
-    text-decoration: none; /* Elimina el subrayado del enlace */
-    font-weight: normal; /* Asegura un formato uniforme */
-}
-
-/* Mantiene el color blanco incluso al pasar el ratón */
-.link-blanco:hover {
-    color: rgb(43, 194, 231); /* No cambia de color al pasar el ratón */
-}
+  }
+  
