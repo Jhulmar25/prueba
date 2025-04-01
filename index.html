@@ -1,263 +1,145 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Reporte de Incidentes</title>
-  <link rel="stylesheet" href="styles.css" />
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
-</head>
-<body>
-  <header style="background-color: #004B87; color: white; padding: 15px; text-align: center; display: flex; align-items: center; justify-content: center; gap: 15px;">
-    <img src="imagenes/logo.jpg" alt="Logo San Isidro" style="height: 50px;">
-    <h2 style="margin: 0;">Municipalidad de San Isidro</h2>
-  </header>
 
-  <h1>Reporte de Incidentes</h1>
-  <form id="reporteForm">
-    <label for="tipoSereno">Tipo de Sereno:</label>
-    <select id="tipoSereno">
-      <option value="a_pie">Sereno a Pie</option>
-      <option value="motorizado">Motorizado</option>
-      <option value="escuadron_drones">Escuadrón de Drones</option>
-    </select>
-
-    <label for="tipoIncidente">Tipo de Incidente:</label>
-    <select id="tipoIncidente">
-      <option value="robo">Robo o Hurto</option>
-      <option value="accidente">Accidente de Tránsito</option>
-      <option value="violencia">Violencia Familiar o de Género</option>
-      <option value="sospechosos">Personas Sospechosas</option>
-      <option value="medico">Emergencias Médicas</option>
-      <option value="incendio">Incendios o Fugas de Gas</option>
-      <option value="drogas">Consumo de Alcohol o Drogas</option>
-      <option value="vandalismo">Actos de Vandalismo</option>
-      <option value="obstruccion">Obstrucción de la Vía Pública</option>
-    </select>
-
-    <button type="button" onclick="centrarEnUbicacion()">Usar mi Ubicación</button>
-    <p><strong>Haz doble clic en el mapa para marcar la ubicación del incidente.</strong></p>
-    <button type="button" onclick="enviarReporte()">Enviar Reporte</button>
-  </form>
-
-  <div id="map" style="height: 400px; margin-top: 20px;"></div>
-  <div style="text-align: center; margin-bottom: 10px;">
-    <button onclick="trazarRuta()" style="padding: 10px 20px;">Trazar Ruta al Incidente</button>
-    <button onclick="cancelarRuta()" style="padding: 10px 20px; background-color: crimson; color: white;">Cancelar Ruta</button>
-  </div>
-  <div id="infoRuta" style="text-align: center; font-weight: bold; color: #444; margin-bottom: 40px;"></div>
-
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
-
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-    import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyABpCquSKr9z9alFPwZUshXaiVUGYEBbxY",
-      authDomain: "pruebas-c80fc.firebaseapp.com",
-      projectId: "pruebas-c80fc",
-      storageBucket: "pruebas-c80fc.firebasestorage.app",
-      messagingSenderId: "1082394664398",
-      appId: "1:1082394664398:web:362fc3a94d3d28ef191f9f",
-      measurementId: "G-KBXJ4KGHFV"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-
-    const map = L.map('map').setView([-12.097, -77.037], 14);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '© OpenStreetMap'
-    }).addTo(map);
-
-    let marcador;
-    let circuloUsuario = null;
-    let marcadorUsuario = null;
-    let latSeleccionada = null;
-    let lonSeleccionada = null;
-    let ubicacionUsuario = null;
-    let routingControl = null;
-    let watchID = null;
-
-    const iconRojo = L.icon({
-      iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
-      iconSize: [25, 41], iconAnchor: [12, 41], popupAnchor: [1, -34]
-    });
-
-    const iconCeleste = L.icon({
-      iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png',
-      iconSize: [25, 41], iconAnchor: [12, 41], popupAnchor: [1, -34]
-    });
-
-    function mostrarUbicacionUsuario(lat, lon) {
-      if (circuloUsuario) map.removeLayer(circuloUsuario);
-      if (marcadorUsuario) map.removeLayer(marcadorUsuario);
-
-      const zoom = map.getZoom();
-      const dynamicRadius = Math.max(50, 1200 / zoom);
-
-      circuloUsuario = L.circle([lat, lon], {
-        color: "green",
-        fillColor: "#0f0",
-        fillOpacity: 0.3,
-        radius: dynamicRadius
-      }).addTo(map);
-
-      marcadorUsuario = L.circleMarker([lat, lon], {
-        radius: 5,
-        color: "#006400",
-        fillColor: "#00FF00",
-        fillOpacity: 1
-      }).addTo(map).bindPopup("Mi ubicación exacta");
-
-      ubicacionUsuario = [lat, lon];
+/* RESET GENERAL */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f9fafb;
+    color: #2c3e50;
+  }
+  
+  /* ENCABEZADO */
+  header {
+    background-color: #1B3B2F;
+    color: white;
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    gap: 15px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  }
+  
+  header img {
+    height: 50px;
+  }
+  
+  header h2 {
+    font-size: 1.5rem;
+  }
+  
+  /* TITULO PRINCIPAL */
+  h1 {
+    text-align: center;
+    padding: 20px 0 10px;
+    color: #1B3B2F;
+  }
+  
+  /* FORMULARIO */
+  form#reporteForm {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+    align-items: center;
+    padding: 15px 20px;
+    background-color: #ffffff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    margin-bottom: 10px;
+  }
+  
+  form label {
+    font-weight: bold;
+    color: #1B3B2F;
+  }
+  
+  form select, form button {
+    padding: 8px 14px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 0.95rem;
+    background-color: white;
+  }
+  
+  form button {
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  form button:hover {
+    opacity: 0.9;
+  }
+  
+  /* BOTONES FUNCIONALES */
+  button[onclick*="centrarEnUbicacion"] {
+    background-color: #265E45;
+    color: white;
+  }
+  
+  button[onclick*="trazarRuta"] {
+    background-color: #3A824F;
+    color: white;
+  }
+  
+  button[onclick*="cancelarRuta"] {
+    background-color: #A52A2A;
+    color: white;
+  }
+  
+  /* BOTÓN ENVIAR */
+  form button[onclick*="enviarReporte"] {
+    background-color: #265E45;
+    color: white;
+    margin-top: 10px;
+  }
+  
+  /* INSTRUCCIONES */
+  form p {
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
+    margin: 10px 0 0;
+    color: #333;
+  }
+  
+  /* INFO RUTA */
+  #infoRuta {
+    width: 100%;
+    background-color: #EAF4EE;
+    color: #1B3B2F;
+    font-weight: bold;
+    text-align: center;
+    padding: 10px;
+    border-radius: 6px;
+    margin-bottom: 5px;
+  }
+  
+  /* MAPA */
+  #map {
+    height: 70vh;
+    width: 100%;
+    border-top: 2px solid #1B3B2F;
+    border-bottom: 2px solid #1B3B2F;
+    z-index: 0;
+  }
+  
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    form#reporteForm {
+      flex-direction: column;
+      align-items: stretch;
     }
-
-    function centrarEnUbicacion() {
-      if (ubicacionUsuario) {
-        map.setView(ubicacionUsuario, 16);
-      } else {
-        alert("Esperando ubicación del usuario...");
-      }
+  
+    form select, form button {
+      width: 100%;
     }
-
-    map.on("zoomend", function () {
-      if (ubicacionUsuario) {
-        mostrarUbicacionUsuario(ubicacionUsuario[0], ubicacionUsuario[1]);
-      }
-    });
-
-    if (navigator.geolocation) {
-      watchID = navigator.geolocation.watchPosition(position => {
-        const lat = position.coords.latitude;
-        const lon = position.coords.longitude;
-        mostrarUbicacionUsuario(lat, lon);
-
-        // Actualizar ruta automáticamente en movimiento
-        if (routingControl && latSeleccionada && lonSeleccionada) {
-          routingControl.setWaypoints([
-            L.latLng(lat, lon),
-            L.latLng(latSeleccionada, lonSeleccionada)
-          ]);
-        }
-
-      }, error => {
-        console.warn("Error con geolocalización continua:", error);
-      }, {
-        enableHighAccuracy: true,
-        maximumAge: 1000,
-        timeout: 5000
-      });
+  
+    #infoRuta {
+      font-size: 0.95rem;
     }
-
-    map.on("dblclick", function (e) {
-      latSeleccionada = e.latlng.lat;
-      lonSeleccionada = e.latlng.lng;
-      if (marcador) map.removeLayer(marcador);
-      marcador = L.marker([latSeleccionada, lonSeleccionada]).addTo(map)
-        .bindPopup("Ubicación seleccionada para reporte").openPopup();
-    });
-
-    async function mostrarReportes() {
-      const querySnapshot = await getDocs(collection(db, "reportes"));
-      const ahora = new Date();
-      const minutos30 = 30 * 60 * 1000;
-      const recientes = [];
-
-      querySnapshot.forEach((doc) => {
-        const data = doc.data();
-        if (data.latitud && data.longitud && data.fecha) {
-          const fecha = new Date(data.fecha.seconds * 1000);
-          if (ahora - fecha <= minutos30) {
-            recientes.push({ ...data, fecha, id: doc.id });
-          }
-        }
-      });
-
-      recientes.sort((a, b) => b.fecha - a.fecha);
-
-      recientes.forEach((data, index) => {
-        const icono = index === 0 ? iconRojo : iconCeleste;
-        L.marker([data.latitud, data.longitud], { icon: icono }).addTo(map)
-          .on('click', function () {
-            latSeleccionada = data.latitud;
-            lonSeleccionada = data.longitud;
-            if (marcador) map.removeLayer(marcador);
-            marcador = L.marker([latSeleccionada, lonSeleccionada]).addTo(map)
-              .bindPopup("Destino seleccionado").openPopup();
-          })
-          .bindPopup(`<b>Incidente:</b> ${data.tipoIncidente}<br>
-                      <b>Sereno:</b> ${data.tipoSereno}<br>
-                      <b>Fecha:</b> ${data.fecha.toLocaleString()}`);
-      });
-    }
-
-    mostrarReportes();
-
-    window.enviarReporte = async function () {
-      const tipoSereno = document.getElementById("tipoSereno").value;
-      const tipoIncidente = document.getElementById("tipoIncidente").value;
-
-      if (!latSeleccionada || !lonSeleccionada) {
-        alert("Haz doble clic en el mapa para seleccionar una ubicación.");
-        return;
-      }
-
-      try {
-        const docRef = await addDoc(collection(db, "reportes"), {
-          tipoSereno,
-          tipoIncidente,
-          latitud: latSeleccionada,
-          longitud: lonSeleccionada,
-          fecha: new Date()
-        });
-
-        alert("Reporte enviado con ID: " + docRef.id);
-        document.getElementById("reporteForm").reset();
-        mostrarReportes();
-
-      } catch (error) {
-        console.error("Error al enviar reporte: ", error);
-        alert("Error al enviar el reporte.");
-      }
-    }
-
-    window.trazarRuta = function () {
-      if (!ubicacionUsuario || !latSeleccionada || !lonSeleccionada) {
-        alert("Selecciona un destino primero.");
-        return;
-      }
-
-      if (routingControl) map.removeControl(routingControl);
-
-      routingControl = L.Routing.control({
-        waypoints: [
-          L.latLng(ubicacionUsuario[0], ubicacionUsuario[1]),
-          L.latLng(latSeleccionada, lonSeleccionada)
-        ],
-        routeWhileDragging: false,
-        show: false,
-        addWaypoints: false,
-        draggableWaypoints: false,
-        createMarker: () => null
-      }).on('routesfound', function (e) {
-        const ruta = e.routes[0];
-        const km = (ruta.summary.totalDistance / 1000).toFixed(2);
-        const min = Math.round(ruta.summary.totalTime / 60);
-        document.getElementById("infoRuta").innerText = `Distancia: ${km} km | Tiempo estimado: ${min} min`;
-      }).addTo(map);
-    }
-
-    window.cancelarRuta = function () {
-      if (routingControl) {
-        map.removeControl(routingControl);
-        routingControl = null;
-        document.getElementById("infoRuta").innerText = "";
-      }
-    }
-  </script>
-</body>
-</html>
+  }
+  
