@@ -1,16 +1,17 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Reporte de Incidentes</title>
   <link rel="stylesheet" href="styles.css" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
+
 </head>
 <body>
   <header>
-    <img src="Imagenes/logo.jpg" alt="Logo San Isidro">
+    <img src="imagenes/logo.jpg" alt="Logo San Isidro">
     <h2>INNOVA PROTEC</h2>
   </header>
 
@@ -37,20 +38,23 @@
       <option value="obstruccion">Obstrucción de la Vía Pública</option>
     </select>
 
-    <button type="button" onclick="forzarCentradoUbicacion()">Usar mi Ubicación</button>
-    <button type="button" onclick="trazarRuta()">Trazar Ruta al Incidente</button>
-    <button type="button" onclick="cancelarRuta()">Cancelar Ruta</button>
+    <div id="rutaButtons" style="display: none;">
+      <button type="button" id="trazarBtn">Trazar Ruta al Incidente</button>
+      <button type="button" id="abrirWazeBtn">Abrir en Waze</button>
+      <button type="button" id="cancelarBtn" style="display: none;">Cancelar Ruta</button>
+    </div>
 
     <div id="infoRuta"></div>
 
     <p><strong>Haz doble clic en el mapa para marcar la ubicación del incidente.</strong></p>
-    <button type="button" onclick="enviarReporte()">Enviar Reporte</button>
+    <button type="button" id="enviarBtn">Enviar Reporte</button>
   </form>
 
   <div id="map"></div>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
@@ -60,7 +64,7 @@
       apiKey: "AIzaSyABpCquSKr9z9alFPwZUshXaiVUGYEBbxY",
       authDomain: "pruebas-c80fc.firebaseapp.com",
       projectId: "pruebas-c80fc",
-      storageBucket: "pruebas-c80fc.firebasestorage.app",
+      storageBucket: "pruebas-c80fc.appspot.com",
       messagingSenderId: "1082394664398",
       appId: "1:1082394664398:web:362fc3a94d3d28ef191f9f",
       measurementId: "G-KBXJ4KGHFV"
@@ -69,149 +73,289 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    let map;
-    let marcador;
-    let circuloUsuario = null;
-    let marcadorUsuario = null;
-    let latSeleccionada = null;
-    let lonSeleccionada = null;
-    let ubicacionUsuario = null;
-    let routingControl = null;
-    let watchID = null;
+    // Variables de estado
+    const state = {
+      map: null,
+      marcador: null,
+      circuloUsuario: null,
+      marcadorUsuario: null,
+      latSeleccionada: null,
+      lonSeleccionada: null,
+      ubicacionUsuario: null,
+      routingControl: null,
+      watchID: null,
+      rutaActiva: false,
+      reportesMarkers: [],
+      selectedMarker: null,
+      rutaActual: null,
+      lastUpdate: 0
+    };
 
+    // Iconos personalizados
     const iconRojo = L.icon({
       iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
-      iconSize: [25, 41], iconAnchor: [12, 41], popupAnchor: [1, -34]
+      iconSize: [25, 41],
+      iconAnchor: [12, 41],
+      popupAnchor: [1, -34]
     });
 
-    const iconCeleste = L.icon({
+    const iconRojoGrande = L.icon({
+      iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
+      iconSize: [35, 51],
+      iconAnchor: [17, 51],
+      popupAnchor: [1, -44]
+    });
+
+    const iconAzul = L.icon({
       iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png',
-      iconSize: [25, 41], iconAnchor: [12, 41], popupAnchor: [1, -34]
+      iconSize: [25, 41],
+      iconAnchor: [12, 41],
+      popupAnchor: [1, -34]
     });
 
-    function inicializarMapa(lat, lon) {
-      map = L.map('map').setView([lat, lon], 17);
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '© OpenStreetMap'
-      }).addTo(map);
+    const iconAzulGrande = L.icon({
+      iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png',
+      iconSize: [35, 51],
+      iconAnchor: [17, 51],
+      popupAnchor: [1, -44]
+    });
 
-      map.on("zoomend", () => {
-        if (ubicacionUsuario) {
-          mostrarUbicacionUsuario(ubicacionUsuario[0], ubicacionUsuario[1]);
+    const iconVerde = L.icon({
+      iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png',
+      iconSize: [25, 41],
+      iconAnchor: [12, 41],
+      popupAnchor: [1, -34]
+    });
+
+    // Inicialización del mapa
+    function inicializarMapa(lat, lon) {
+      state.map = L.map('map', {
+        preferCanvas: true,
+        zoomControl: false
+      }).setView([lat, lon], 15);
+      
+      L.control.zoom({
+        position: 'topright'
+      }).addTo(state.map);
+
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap',
+        maxZoom: 19,
+        updateWhenIdle: true
+      }).addTo(state.map);
+
+      // Ajustar tamaño del mapa cuando cambie el tamaño de la ventana
+      window.addEventListener('resize', () => {
+        state.map.invalidateSize();
+      });
+
+      state.map.on("zoomend", () => {
+        if (state.ubicacionUsuario) {
+          mostrarUbicacionUsuario(state.ubicacionUsuario[0], state.ubicacionUsuario[1]);
         }
       });
 
-      map.on("dblclick", function (e) {
-        latSeleccionada = e.latlng.lat;
-        lonSeleccionada = e.latlng.lng;
-        if (marcador) map.removeLayer(marcador);
-        marcador = L.marker([latSeleccionada, lonSeleccionada]).addTo(map)
+      state.map.on("dblclick", function (e) {
+        if (state.rutaActiva) {
+          alert("Cancela la ruta actual antes de seleccionar un nuevo destino");
+          return;
+        }
+        
+        state.latSeleccionada = e.latlng.lat;
+        state.lonSeleccionada = e.latlng.lng;
+        if (state.marcador) state.map.removeLayer(state.marcador);
+        state.marcador = L.marker([state.latSeleccionada, state.lonSeleccionada], {
+          icon: iconVerde,
+          riseOnHover: true
+        }).addTo(state.map)
           .bindPopup("Ubicación seleccionada para reporte").openPopup();
+        
+        document.getElementById('rutaButtons').style.display = 'flex';
       });
 
       mostrarReportes();
     }
 
+    // Mostrar ubicación del usuario
     function mostrarUbicacionUsuario(lat, lon) {
-      if (circuloUsuario) map.removeLayer(circuloUsuario);
-      if (marcadorUsuario) map.removeLayer(marcadorUsuario);
+      if (state.circuloUsuario) state.map.removeLayer(state.circuloUsuario);
+      if (state.marcadorUsuario) state.map.removeLayer(state.marcadorUsuario);
 
-      const zoom = map.getZoom();
+      const zoom = state.map.getZoom();
       const dynamicRadius = Math.max(50, 1200 / zoom);
 
-      circuloUsuario = L.circle([lat, lon], {
+      state.circuloUsuario = L.circle([lat, lon], {
         color: "green",
         fillColor: "#0f0",
         fillOpacity: 0.3,
-        radius: dynamicRadius
-      }).addTo(map);
+        radius: dynamicRadius,
+        zIndexOffset: -1000,
+        interactive: false
+      }).addTo(state.map);
 
-      marcadorUsuario = L.circleMarker([lat, lon], {
+      state.marcadorUsuario = L.circleMarker([lat, lon], {
         radius: 5,
         color: "#006400",
         fillColor: "#00FF00",
-        fillOpacity: 1
-      }).addTo(map).bindPopup("Mi ubicación exacta");
+        fillOpacity: 1,
+        zIndexOffset: 1000,
+        interactive: false
+      }).addTo(state.map).bindPopup("Mi ubicación exacta");
 
-      ubicacionUsuario = [lat, lon];
+      state.ubicacionUsuario = [lat, lon];
+      
+      if (state.rutaActiva && state.routingControl && state.latSeleccionada && state.lonSeleccionada) {
+        state.routingControl.setWaypoints([
+          L.latLng(lat, lon),
+          L.latLng(state.latSeleccionada, state.lonSeleccionada)
+        ]);
+      }
     }
 
+    // Forzar centrado en la ubicación del usuario
     function forzarCentradoUbicacion() {
       navigator.geolocation.getCurrentPosition(position => {
         const lat = position.coords.latitude;
         const lon = position.coords.longitude;
-        if (!map) inicializarMapa(lat, lon);
+        if (!state.map) inicializarMapa(lat, lon);
         mostrarUbicacionUsuario(lat, lon);
-        map.setView([lat, lon], 17, { animate: true });
+        state.map.setView([lat, lon], 15, { animate: true });
       }, () => {
         alert("No se pudo obtener tu ubicación.");
+        if (!state.map) inicializarMapa(-12.0464, -77.0428);
       }, {
         enableHighAccuracy: true,
         timeout: 10000
       });
     }
 
+    // Función para verificar desviación y recalcular ruta
+    function verificarDesviacionYRecalcular(lat, lon) {
+      if (!state.routingControl || !state.rutaActual) return;
+
+      const distancia = calcularDistanciaARuta(lat, lon, state.rutaActual);
+      
+      if (distancia > 20) {
+        const ahora = Date.now();
+        if (ahora - state.lastUpdate > 3000) {
+          console.log("Desviación detectada, recalculando ruta...");
+          trazarRuta();
+          state.lastUpdate = ahora;
+        }
+      }
+    }
+
+    function calcularDistanciaARuta(lat, lon, ruta) {
+      let minDistancia = Infinity;
+      ruta.coordinates.forEach(point => {
+        const dist = state.map.distance([lat, lon], [point.lat, point.lng]);
+        if (dist < minDistancia) minDistancia = dist;
+      });
+      return minDistancia;
+    }
+
+    // Seguimiento de ubicación con actualización cada 3 segundos
     if (navigator.geolocation) {
-      watchID = navigator.geolocation.watchPosition(position => {
-        const lat = position.coords.latitude;
-        const lon = position.coords.longitude;
-        mostrarUbicacionUsuario(lat, lon);
-
-        if (routingControl && latSeleccionada && lonSeleccionada) {
-          routingControl.setWaypoints([
-            L.latLng(lat, lon),
-            L.latLng(latSeleccionada, lonSeleccionada)
-          ]);
-        }
-
-      }, error => {
-        console.warn("Error con geolocalización continua:", error);
-      }, {
-        enableHighAccuracy: true,
-        maximumAge: 1000,
-        timeout: 5000
-      });
-    }
-
-    async function mostrarReportes() {
-      const querySnapshot = await getDocs(collection(db, "reportes"));
-      const ahora = new Date();
-      const minutos30 = 30 * 60 * 1000;
-      const recientes = [];
-
-      querySnapshot.forEach((doc) => {
-        const data = doc.data();
-        if (data.latitud && data.longitud && data.fecha) {
-          const fecha = new Date(data.fecha.seconds * 1000);
-          if (ahora - fecha <= minutos30) {
-            recientes.push({ ...data, fecha, id: doc.id });
+      state.watchID = navigator.geolocation.watchPosition(
+        position => {
+          const lat = position.coords.latitude;
+          const lon = position.coords.longitude;
+          
+          if (state.ubicacionUsuario) {
+            const deltaLat = Math.abs(lat - state.ubicacionUsuario[0]);
+            const deltaLon = Math.abs(lon - state.ubicacionUsuario[1]);
+            if (deltaLat < 0.0001 && deltaLon < 0.0001) return;
           }
+          
+          mostrarUbicacionUsuario(lat, lon);
+          
+          if (state.rutaActiva) {
+            verificarDesviacionYRecalcular(lat, lon);
+          }
+        }, 
+        error => {
+          console.warn("Error con geolocalización continua:", error);
+        }, 
+        {
+          enableHighAccuracy: true,
+          maximumAge: 0,
+          timeout: 5000
         }
-      });
-
-      recientes.sort((a, b) => b.fecha - a.fecha);
-
-      recientes.forEach((data, index) => {
-        const icono = index === 0 ? iconRojo : iconCeleste;
-        L.marker([data.latitud, data.longitud], { icon: icono }).addTo(map)
-          .on('click', function () {
-            latSeleccionada = data.latitud;
-            lonSeleccionada = data.longitud;
-            if (marcador) map.removeLayer(marcador);
-            marcador = L.marker([latSeleccionada, lonSeleccionada]).addTo(map)
-              .bindPopup("Destino seleccionado").openPopup();
-          })
-          .bindPopup(`<b>Incidente:</b> ${data.tipoIncidente}<br>
-                      <b>Sereno:</b> ${data.tipoSereno}<br>
-                      <b>Fecha:</b> ${data.fecha.toLocaleString()}`);
-      });
+      );
     }
 
-    window.enviarReporte = async function () {
+    // Mostrar reportes
+    async function mostrarReportes() {
+      try {
+        state.reportesMarkers.forEach(marker => state.map.removeLayer(marker));
+        state.reportesMarkers = [];
+
+        const querySnapshot = await getDocs(collection(db, "reportes"));
+        const ahora = new Date();
+        const minutos30 = 30 * 60 * 1000;
+        const recientes = [];
+
+        querySnapshot.forEach((doc) => {
+          const data = doc.data();
+          if (data.latitud && data.longitud && data.fecha) {
+            const fecha = new Date(data.fecha.seconds * 1000);
+            if (ahora - fecha <= minutos30) {
+              recientes.push({ ...data, fecha, id: doc.id });
+            }
+          }
+        });
+
+        recientes.sort((a, b) => b.fecha - a.fecha);
+
+        recientes.forEach((data, index) => {
+          const isMostRecent = index === 0;
+          const marker = L.marker([data.latitud, data.longitud], { 
+            icon: isMostRecent ? iconRojo : iconAzul,
+            riseOnHover: true
+          }).addTo(state.map)
+            .on('click', function() {
+              if (state.selectedMarker) {
+                const wasMostRecent = state.reportesMarkers[0] === state.selectedMarker;
+                state.selectedMarker.setIcon(wasMostRecent ? iconRojo : iconAzul);
+              }
+              
+              const isMostRecentNow = state.reportesMarkers[0] === this;
+              this.setIcon(isMostRecentNow ? iconRojoGrande : iconAzulGrande);
+              state.selectedMarker = this;
+              
+              if (state.rutaActiva) {
+                alert("Cancela la ruta actual antes de seleccionar un nuevo destino");
+                return;
+              }
+              
+              state.latSeleccionada = data.latitud;
+              state.lonSeleccionada = data.longitud;
+              if (state.marcador) state.map.removeLayer(state.marcador);
+              state.marcador = L.marker([state.latSeleccionada, state.lonSeleccionada], {
+                icon: isMostRecentNow ? iconRojoGrande : iconAzulGrande,
+                riseOnHover: true
+              }).addTo(state.map)
+                .bindPopup("Destino seleccionado").openPopup();
+              
+              document.getElementById('rutaButtons').style.display = 'flex';
+            })
+            .bindPopup(`<b>Incidente:</b> ${data.tipoIncidente}<br>
+                        <b>Sereno:</b> ${data.tipoSereno}<br>
+                        <b>Fecha:</b> ${data.fecha.toLocaleString()}`);
+          
+          state.reportesMarkers.push(marker);
+        });
+      } catch (error) {
+        console.error("Error al cargar reportes:", error);
+      }
+    }
+
+    // Enviar reporte
+    document.getElementById('enviarBtn').addEventListener('click', async function() {
       const tipoSereno = document.getElementById("tipoSereno").value;
       const tipoIncidente = document.getElementById("tipoIncidente").value;
 
-      if (!latSeleccionada || !lonSeleccionada) {
+      if (!state.latSeleccionada || !state.lonSeleccionada) {
         alert("Haz doble clic en el mapa para seleccionar una ubicación.");
         return;
       }
@@ -220,58 +364,112 @@
         const docRef = await addDoc(collection(db, "reportes"), {
           tipoSereno,
           tipoIncidente,
-          latitud: latSeleccionada,
-          longitud: lonSeleccionada,
+          latitud: state.latSeleccionada,
+          longitud: state.lonSeleccionada,
           fecha: new Date()
         });
 
         alert("Reporte enviado con ID: " + docRef.id);
         document.getElementById("reporteForm").reset();
-        mostrarReportes();
+        
+        setTimeout(mostrarReportes, 1000);
 
       } catch (error) {
         console.error("Error al enviar reporte: ", error);
         alert("Error al enviar el reporte.");
       }
-    }
+    });
 
-    window.trazarRuta = function () {
-      if (!ubicacionUsuario || !latSeleccionada || !lonSeleccionada) {
+    // Trazar ruta
+    document.getElementById('trazarBtn').addEventListener('click', function() {
+      if (!state.ubicacionUsuario || !state.latSeleccionada || !state.lonSeleccionada) {
         alert("Selecciona un destino primero.");
         return;
       }
 
-      if (routingControl) map.removeControl(routingControl);
+      document.getElementById("infoRuta").innerText = "Calculando ruta...";
+      
+      if (state.routingControl) {
+        state.map.removeControl(state.routingControl);
+        state.routingControl = null;
+      }
 
-      routingControl = L.Routing.control({
+      state.routingControl = L.Routing.control({
         waypoints: [
-          L.latLng(ubicacionUsuario[0], ubicacionUsuario[1]),
-          L.latLng(latSeleccionada, lonSeleccionada)
+          L.latLng(state.ubicacionUsuario[0], state.ubicacionUsuario[1]),
+          L.latLng(state.latSeleccionada, state.lonSeleccionada)
         ],
         routeWhileDragging: false,
         show: false,
         addWaypoints: false,
         draggableWaypoints: false,
-        createMarker: () => null
+        fitSelectedRoutes: false,
+        createMarker: () => null,
+        lineOptions: {
+          styles: [{
+            color: '#e74c3c',
+            opacity: 0.9,
+            weight: 6,
+            className: 'ruta-linea'
+          }],
+          extendToWaypoints: false,
+          missingRouteTolerance: 0
+        },
+        router: L.Routing.osrmv1({
+          serviceUrl: 'https://router.project-osrm.org/route/v1',
+          timeout: 5000
+        })
       }).on('routesfound', function (e) {
         const ruta = e.routes[0];
+        state.rutaActual = ruta;
+        
         const km = (ruta.summary.totalDistance / 1000).toFixed(2);
         const min = Math.round(ruta.summary.totalTime / 60);
-        document.getElementById("infoRuta").innerText = `Distancia: ${km} km | Tiempo estimado: ${min} min`;
-      }).addTo(map);
-    }
+        document.getElementById("infoRuta").innerHTML = `
+          <strong>Distancia:</strong> ${km} km | <strong>Tiempo estimado:</strong> ${min} min
+        `;
+        
+        state.map.fitBounds(ruta.coordinates, {
+          padding: [50, 50],
+          animate: true,
+          duration: 1
+        });
+        
+        state.rutaActiva = true;
+        document.getElementById('cancelarBtn').style.display = 'block';
+        document.getElementById('trazarBtn').style.display = 'none';
+        state.lastUpdate = Date.now();
+      }).on('routingerror', function(e) {
+        document.getElementById("infoRuta").innerText = "Error al calcular la ruta";
+      }).addTo(state.map);
+    });
 
-    window.cancelarRuta = function () {
-      if (routingControl) {
-        map.removeControl(routingControl);
-        routingControl = null;
-        document.getElementById("infoRuta").innerText = "";
+    // Abrir Waze
+    document.getElementById('abrirWazeBtn').addEventListener('click', function() {
+      if (!state.ubicacionUsuario || !state.latSeleccionada || !state.lonSeleccionada) {
+        alert("Selecciona un destino primero.");
+        return;
       }
-    }
 
-    // Iniciar con intento de obtener ubicación para centrar el mapa al cargar
+      const url = `https://www.waze.com/ul?ll=${state.latSeleccionada}%2C${state.lonSeleccionada}&navigate=yes&zoom=17`;
+      window.open(url, '_blank');
+    });
+
+    // Cancelar ruta
+    document.getElementById('cancelarBtn').addEventListener('click', function() {
+      if (state.routingControl) {
+        state.map.removeControl(state.routingControl);
+        state.routingControl = null;
+        state.rutaActiva = false;
+        state.rutaActual = null;
+        document.getElementById("infoRuta").innerText = "";
+        document.getElementById('cancelarBtn').style.display = 'none';
+        document.getElementById('trazarBtn').style.display = 'block';
+      }
+    });
+
+    // Iniciar la aplicación
     forzarCentradoUbicacion();
-
   </script>
 </body>
 </html>
