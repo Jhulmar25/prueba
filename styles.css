@@ -1,145 +1,145 @@
-
-/* RESET GENERAL */
+/* === RESETEO GENERAL === */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  body {
-    font-family: 'Segoe UI', sans-serif;
-    background-color: #f9fafb;
-    color: #2c3e50;
-  }
-  
-  /* ENCABEZADO */
-  header {
-    background-color: #1B3B2F;
-    color: white;
-    display: flex;
-    align-items: center;
-    padding: 15px 20px;
-    gap: 15px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-  }
-  
-  header img {
-    height: 50px;
-  }
-  
-  header h2 {
-    font-size: 1.5rem;
-  }
-  
-  /* TITULO PRINCIPAL */
-  h1 {
-    text-align: center;
-    padding: 20px 0 10px;
-    color: #1B3B2F;
-  }
-  
-  /* FORMULARIO */
-  form#reporteForm {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    justify-content: center;
-    align-items: center;
-    padding: 15px 20px;
-    background-color: #ffffff;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-    margin-bottom: 10px;
-  }
-  
-  form label {
-    font-weight: bold;
-    color: #1B3B2F;
-  }
-  
-  form select, form button {
-    padding: 8px 14px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-    font-size: 0.95rem;
-    background-color: white;
-  }
-  
-  form button {
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  form button:hover {
-    opacity: 0.9;
-  }
-  
-  /* BOTONES FUNCIONALES */
-  button[onclick*="centrarEnUbicacion"] {
-    background-color: #265E45;
-    color: white;
-  }
-  
-  button[onclick*="trazarRuta"] {
-    background-color: #3A824F;
-    color: white;
-  }
-  
-  button[onclick*="cancelarRuta"] {
-    background-color: #A52A2A;
-    color: white;
-  }
-  
-  /* BOTÓN ENVIAR */
-  form button[onclick*="enviarReporte"] {
-    background-color: #265E45;
-    color: white;
-    margin-top: 10px;
-  }
-  
-  /* INSTRUCCIONES */
-  form p {
-    width: 100%;
-    text-align: center;
-    font-weight: bold;
-    margin: 10px 0 0;
-    color: #333;
-  }
-  
-  /* INFO RUTA */
-  #infoRuta {
-    width: 100%;
-    background-color: #EAF4EE;
-    color: #1B3B2F;
-    font-weight: bold;
-    text-align: center;
-    padding: 10px;
-    border-radius: 6px;
-    margin-bottom: 5px;
-  }
-  
-  /* MAPA */
-  #map {
-    height: 70vh;
-    width: 100%;
-    border-top: 2px solid #1B3B2F;
-    border-bottom: 2px solid #1B3B2F;
-    z-index: 0;
-  }
-  
-  /* RESPONSIVE */
-  @media (max-width: 768px) {
-    form#reporteForm {
-      flex-direction: column;
-      align-items: stretch;
-    }
-  
-    form select, form button {
-      width: 100%;
-    }
-  
-    #infoRuta {
-      font-size: 0.95rem;
-    }
-  }
-  
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* === CUERPO Y FONDO GENERAL === */
+body {
+  background-color: #f3f4f6; /* Fondo suave gris-azulado */
+  color: #374151;            /* Texto gris oscuro */
+}
+
+/* === ENCABEZADO === */
+header {
+  display: flex;
+  align-items: center;
+  background-color: #1f4037; /* Verde institucional (se mantiene) */
+  color: white;
+  padding: 14px 24px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+header img {
+  height: 40px;
+  margin-right: 12px;
+}
+
+header h2 {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+/* === TÍTULO PRINCIPAL === */
+h1 {
+  text-align: center;
+  margin: 24px 0 16px;
+  font-size: 24px;
+  color: #1e3a8a; /* Azul petróleo moderno */
+}
+
+/* === FORMULARIO (Tarjeta Blanca) === */
+form {
+  max-width: 600px;
+  margin: 0 auto;
+  background-color: #ffffff;
+  padding: 25px 30px;
+  border-radius: 14px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  margin-bottom: 30px;
+}
+
+/* === ETIQUETAS DE LOS SELECTORES === */
+label {
+  display: block;
+  margin-top: 15px;
+  font-weight: 600;
+  color: #374151;
+}
+
+/* === SELECTORES DESPLEGABLES === */
+select {
+  width: 100%;
+  padding: 10px 12px;
+  margin-top: 6px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 16px;
+  background-color: #f9fafb;
+  color: #1f2937;
+}
+
+/* === BOTONES GENERALES === */
+button {
+  padding: 10px 18px;
+  margin-top: 18px;
+  margin-right: 10px;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+/* === BOTÓN: Trazar Ruta === */
+#trazarBtn {
+  background-color: #2563eb; /* Azul principal */
+  color: #ffffff;
+}
+#trazarBtn:hover {
+  background-color: #1d4ed8;
+}
+
+/* === BOTÓN: Abrir en Waze === */
+#abrirWazeBtn {
+  background-color: #6b7280; /* Gris medio */
+  color: white;
+}
+#abrirWazeBtn:hover {
+  background-color: #4b5563;
+}
+
+/* === BOTÓN: Cancelar Ruta === */
+#cancelarBtn {
+  background-color: #ef4444; /* Rojo suave */
+  color: white;
+}
+#cancelarBtn:hover {
+  background-color: #dc2626;
+}
+
+/* === BOTÓN: Enviar Reporte === */
+#enviarBtn {
+  background-color: #10b981; /* Verde menta para acción positiva */
+  color: white;
+}
+#enviarBtn:hover {
+  background-color: #059669;
+}
+
+/* === CONTENEDOR DE BOTONES DE RUTA === */
+#rutaButtons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 15px;
+}
+
+/* === INFORMACIÓN DE LA RUTA CALCULADA === */
+#infoRuta {
+  margin-top: 12px;
+  font-style: italic;
+  color: #4b5563;
+}
+
+/* === MAPA LEAFLET === */
+#map {
+  height: 500px;
+  border-radius: 14px;
+  margin: 0 auto 30px;
+  max-width: 95%;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+}
