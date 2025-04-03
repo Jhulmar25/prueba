@@ -29,7 +29,7 @@ header img {
 
 /* === TÍTULO DEL ENCABEZADO === */
 header h2 {
-  font-size: 35px;
+  font-size: 25px;
   font-weight: bold; /* Negrita */
   font-style: italic; /* Cursiva */
   font-family: 'Playfair Display', serif; /* Tipo de letra elegante */
@@ -44,7 +44,7 @@ h1 {
   text-align: center;
   font-style: italic; /* Cursiva */
   margin: 24px 0 16px;
-  font-size: 44px;
+  font-size: 30px;
   letter-spacing: 0.5px; /* Poco espacio entre letras */
 
   word-spacing: 9px; /* Más espacio entre palabras */
