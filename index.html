@@ -12,20 +12,20 @@
 <body>
   <header>
     <img src="Imagenes/logo.jpg" alt="Logo San Isidro">
-    <h2>INNOVA PROTEC</h2>
+    <h2>INNOVA  PROTEC</h2>
   </header>
 
-  <h1>Reporte de Incidentes</h1>
+  <h1>REPORTE DE INCIDENTES</h1>
 
   <form id="reporteForm">
-    <label for="tipoSereno">Tipo de Sereno:</label>
+    <label for="tipoSereno">TIPO DE SERENO </label>
     <select id="tipoSereno">
       <option value="a_pie">Sereno a Pie</option>
       <option value="motorizado">Motorizado</option>
       <option value="escuadron_drones">Escuadrón de Drones</option>
     </select>
 
-    <label for="tipoIncidente">Tipo de Incidente:</label>
+    <label for="tipoIncidente">TIPO DE INCIDENTE:</label>
     <select id="tipoIncidente">
       <option value="robo">Robo o Hurto</option>
       <option value="accidente">Accidente de Tránsito</option>
@@ -46,7 +46,7 @@
 
     <div id="infoRuta"></div>
 
-    <p><strong>Haz doble clic en el mapa para marcar la ubicación del incidente.</strong></p>
+   
     <button type="button" id="enviarBtn">Enviar Reporte</button>
   </form>
 
@@ -185,8 +185,8 @@
       const dynamicRadius = Math.max(50, 1200 / zoom);
 
       state.circuloUsuario = L.circle([lat, lon], {
-        color: "green",
-        fillColor: "#0f0",
+        color: "#059669",
+        fillColor: "#059669",
         fillOpacity: 0.3,
         radius: dynamicRadius,
         zIndexOffset: -1000,
@@ -194,9 +194,9 @@
       }).addTo(state.map);
 
       state.marcadorUsuario = L.circleMarker([lat, lon], {
-        radius: 5,
-        color: "#006400",
-        fillColor: "#00FF00",
+        radius: 7,
+        color: "#059669",
+        fillColor: "#10b981",
         fillOpacity: 1,
         zIndexOffset: 1000,
         interactive: false
@@ -407,7 +407,7 @@
         createMarker: () => null,
         lineOptions: {
           styles: [{
-            color: '#e74c3c',
+            color: '#f87171	',
             opacity: 0.9,
             weight: 6,
             className: 'ruta-linea'
